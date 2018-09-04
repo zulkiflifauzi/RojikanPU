@@ -20,6 +20,6 @@ namespace RojikanPU.Domain
         public virtual Article Article { get; set; }
 
         [Required]
-        public byte[] Content { get; set; }
+        public string FileName { get; set; }
     }
 }

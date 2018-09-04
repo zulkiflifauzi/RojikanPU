@@ -30,6 +30,9 @@ namespace RojikanPU.Domain
         [Required]
         public int AuthorId { get; set; }
 
+        [Required]
+        public DateTime CreatedDate { get; set; }
+
         [ForeignKey("AuthorId")]
         public virtual ApplicationUser Author { get; set; }
 

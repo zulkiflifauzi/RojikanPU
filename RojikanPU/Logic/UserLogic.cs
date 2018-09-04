@@ -38,5 +38,10 @@ namespace RojikanPU.Logic
         {
             throw new NotImplementedException();
         }
+
+        public ApplicationUser GetUserByEmail(string email)
+        {
+            return _repository.GetUserByEmail(email);
+        }
     }
 }

@@ -50,5 +50,10 @@ namespace RojikanPU.Repositories
         {
             return _db.Users.Where(c => !exceptions.Contains(c.Id)).ToList();
         }
+
+        public ApplicationUser GetUserByEmail(string email)
+        {
+            return _db.Users.Where(c => c.Email.Equals(email)).SingleOrDefault();
+        }
     }
 }

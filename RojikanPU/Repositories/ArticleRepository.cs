@@ -23,6 +23,7 @@ namespace RojikanPU.Repositories
 
         public void Create(Article entity)
         {
+            entity.CreatedDate = DateTime.Now;
             _db.Articles.Add(entity);
             _db.SaveChanges();
         }
@@ -34,7 +35,13 @@ namespace RojikanPU.Repositories
 
         public Article Edit(Article entity)
         {
-            throw new NotImplementedException();
+            var article = _db.Articles.Find(entity.Id);
+            article.SubTitle = entity.SubTitle;
+            article.Title = entity.Title;
+            article.Content = entity.Content;
+            article.Type = entity.Type;
+            _db.SaveChanges();
+            return article;
         }
 
         public List<Article> GetAll()
@@ -44,7 +51,7 @@ namespace RojikanPU.Repositories
 
         public Article GetById(int id)
         {
-            throw new NotImplementedException();
+            return _db.Articles.SingleOrDefault(c => c.Id == id);
         }
     }
 }

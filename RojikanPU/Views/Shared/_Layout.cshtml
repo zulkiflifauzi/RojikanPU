@@ -42,7 +42,8 @@
                         <ul class="nav navbar-nav navbar-right">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <li>@Html.ActionLink("User", "Index", "User")</li>
+                                <li>@Html.ActionLink("ARTIKEL", "Index", "Article")</li>
+                                <li>@Html.ActionLink("USER", "Index", "User")</li>
                             }
                         </ul>
                     </div>
