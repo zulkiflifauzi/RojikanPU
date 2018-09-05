@@ -30,7 +30,15 @@ namespace RojikanPU.Repositories
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var oldData = _db.Articles.SingleOrDefault(c => c.Id == id);
+
+            foreach (var item in oldData.ArticleFiles.ToList())
+            {
+                _db.ArticleFiles.Remove(item);
+            }
+            
+            _db.Articles.Remove(oldData);
+            _db.SaveChanges();
         }
 
         public Article Edit(Article entity)
@@ -52,6 +60,11 @@ namespace RojikanPU.Repositories
         public Article GetById(int id)
         {
             return _db.Articles.SingleOrDefault(c => c.Id == id);
+        }
+
+        public List<Article> GetByType(string type)
+        {
+            return _db.Articles.Where(c => c.Type.Equals(type)).ToList();
         }
     }
 }

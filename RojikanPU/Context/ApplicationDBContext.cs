@@ -25,6 +25,10 @@ namespace RojikanPU.Context
 
         public DbSet<ArticleFile> ArticleFiles { get; set; }
 
+        public DbSet<PPK> PPKs { get; set; }
+
+        public DbSet<Report> Reports { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

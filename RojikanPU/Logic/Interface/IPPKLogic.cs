@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace RojikanPU.Logic.Interface
 {
-    public interface IArticleLogic : IBaseLogic<Article>
+    public interface IPPKLogic : IBaseLogic<PPK>
     {
-        List<Article> GetByType(string type);
     }
 }

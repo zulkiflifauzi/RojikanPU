@@ -205,7 +205,7 @@ namespace RojikanPU.Migrations
             }
 
             // create roles
-            string[] rolesToCreate = new string[] { "Data Entry", "Administrator", "Viewer" };
+            string[] rolesToCreate = new string[] { "Data Entry", "Administrator", "Viewer", "PPK" };
             var roleManager = new ApplicationRoleManager(new NetRoleStore(context));
             foreach (var role in rolesToCreate)
             {

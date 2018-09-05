@@ -51,6 +51,22 @@ namespace RojikanPU.Repositories
             return _db.Users.Where(c => !exceptions.Contains(c.Id)).ToList();
         }
 
+        public List<ApplicationUser> GetPPKUsers(int? excludedId = null)
+        {
+            var userIds = _db.PPKs.Where(c => c.Id != excludedId).Select(c => c.Id).ToList();
+
+            var role = _db.Roles.Where(c => c.Name.Equals("PPK")).FirstOrDefault();
+
+            var userRoleIds = role.Users.Select(c => c.UserId).ToList();
+
+            if (excludedId != null)
+            {
+                return _db.Users.Where(c => !userIds.Contains(c.Id) && userRoleIds.Contains(c.Id)).ToList();
+            }
+
+            return _db.Users.Where(c => !userIds.Contains(c.Id) && userRoleIds.Contains(c.Id)).ToList();
+        }
+
         public ApplicationUser GetUserByEmail(string email)
         {
             return _db.Users.Where(c => c.Email.Equals(email)).SingleOrDefault();

@@ -9,5 +9,6 @@ namespace RojikanPU.Repositories.Interfaces
 {
     public interface IArticleRepository : IBaseRepository<Article>
     {
+        List<Article> GetByType(string type);
     }
 }

@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using RojikanPU.Domain;
 
 namespace RojikanPU.Models
 {
@@ -59,7 +60,9 @@ namespace RojikanPU.Models
         [Required(ErrorMessage = "Please enter a phone number.")]
         public override string PhoneNumber { get; set; }
 
-        public string CurrentAddress { get; set; }        
+        public string CurrentAddress { get; set; }
+        
+        public virtual PPK PPK { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager)
         {

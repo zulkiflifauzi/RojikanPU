@@ -10,5 +10,7 @@ namespace RojikanPU.Logic.Interface
     public interface IUserLogic : IBaseLogic<ApplicationUser>
     {
         ApplicationUser GetUserByEmail(string email);
+
+        List<ApplicationUser> GetPPKUsers(int? excludedId);
     }
 }

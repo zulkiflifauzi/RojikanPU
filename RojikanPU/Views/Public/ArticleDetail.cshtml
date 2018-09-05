@@ -37,19 +37,11 @@
                     <li><a href="~/Content/Upload/@item.FileURL">@item.FileName</a></li>
                 }
             </ul>
-        }       
+        }
         else
-            {
+        {
             <span>Tidak ada file</span>
         }
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-            @Html.ActionLink("Back to List", "Index")
-        </p>
     </div>
 </div>
 

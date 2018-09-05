@@ -12,5 +12,7 @@ namespace RojikanPU.Repositories.Interfaces
         List<ApplicationUser> GetFreeUsers(List<int> exceptions);
 
         ApplicationUser GetUserByEmail(string email);
+
+        List<ApplicationUser> GetPPKUsers(int? excludedId);
     }
 }

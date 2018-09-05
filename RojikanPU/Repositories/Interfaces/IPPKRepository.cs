@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RojikanPU.Logic.Interface
+namespace RojikanPU.Repositories.Interfaces
 {
-    public interface IArticleLogic : IBaseLogic<Article>
+    public interface IPPKRepository : IBaseRepository<PPK>
     {
-        List<Article> GetByType(string type);
+        bool IsPPKExist(string name, int? exludedId);
     }
 }

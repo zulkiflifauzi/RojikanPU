@@ -17,9 +17,17 @@ namespace RojikanPU.Domain
         public string Name { get; set; }
 
         [Required]
+        public string Address { get; set; }
+
+        [Required]
         public string PhoneNumber { get; set; }
 
         [Required]
         public string Description { get; set; }
+
+        [ForeignKey("PPK")]
+        public int? PPKId { get; set; }
+
+        public virtual PPK PPK { get; set; }
     }
 }

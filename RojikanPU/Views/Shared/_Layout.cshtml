@@ -5,11 +5,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - E-SINERGI</title>
+    <title>@ViewBag.Title - LAPOR BRANTAS</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-    <link rel="icon" href="~/Content/Images/favico.jpg" />
+    <link rel="icon" href="~/Content/Images/icon.png"  type="image/png" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
     <style>
          /* Always set the map height explicitly to define the size of the div
@@ -19,7 +19,7 @@
          }
     </style>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJXxpVIlOlgIwGvHVVdhRSTinAgYxxpVs" type="text/javascript"></script>
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJXxpVIlOlgIwGvHVVdhRSTinAgYxxpVs" type="text/javascript"></script>*@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -33,9 +33,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a href="/">
-                            <img src="~/Content/Images/logo.png" class="logo-width" />
-                        </a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="/Home/">
+                                <img src="~/Content/Images/logo.png" class="logo-width" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/">
+                                <img src="~/Content/Images/logo.png" class="logo-width" />
+                            </a>
+                        }
+
                     </div>
                     <div class="navbar-collapse collapse">                        
                         @Html.Partial("_LoginPartial")
@@ -43,7 +53,15 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li>@Html.ActionLink("ARTIKEL", "Index", "Article")</li>
+                                <li>@Html.ActionLink("PPK", "Index", "PPK")</li>
                                 <li>@Html.ActionLink("USER", "Index", "User")</li>
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("INFO PUBLIK", "Articles", "Public", new { id = "INFO PUBLIK" }, null)</li>
+                                <li>@Html.ActionLink("SISDA", "Articles", "Public", new { id = "SISDA" }, null)</li>
+                                <li>@Html.ActionLink("REKOMTEK", "Articles", "Public", new { id = "REKOMTEK" }, null)</li>
+                                <li>@Html.ActionLink("POSKO", "Articles", "Public", new { id = "POSKO" }, null)</li>
                             }
                         </ul>
                     </div>
@@ -68,7 +86,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - E-SINERGI</p>
+            <p>&copy; @DateTime.Now.Year - LAPOR BRANTAS</p>
         </footer>
     </div>
 

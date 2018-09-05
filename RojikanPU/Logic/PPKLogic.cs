@@ -10,13 +10,20 @@ using RojikanPU.Context;
 
 namespace RojikanPU.Logic
 {
-    public class ArticleLogic : IArticleLogic
+    public class PPKLogic : IPPKLogic
     {
-        private readonly ArticleRepository _repository = new ArticleRepository(new ApplicationDbContext());
+        private readonly PPKRepository _repository = new PPKRepository(new ApplicationDbContext());
 
-        public ResponseMessage Create(Article entity)
+        public ResponseMessage Create(PPK entity)
         {
             ResponseMessage response = new ResponseMessage();
+
+            if (_repository.IsPPKExist(entity.Name))
+            {
+                response.IsError = true;
+                response.ErrorCodes.Add("PPK Already Exist");
+                return response;
+            }
 
             _repository.Create(entity);
 
@@ -32,28 +39,28 @@ namespace RojikanPU.Logic
             return response;
         }
 
-        public ResponseMessage Edit(Article entity)
+        public ResponseMessage Edit(PPK entity)
         {
             ResponseMessage response = new ResponseMessage();
-
+            if (_repository.IsPPKExist(entity.Name, entity.Id))
+            {
+                response.IsError = true;
+                response.ErrorCodes.Add("PPK Already Exist");
+                return response;
+            }
             _repository.Edit(entity);
 
             return response;
         }
 
-        public List<Article> GetAll()
+        public List<PPK> GetAll()
         {
             return _repository.GetAll();
         }
 
-        public Article GetById(int id)
+        public PPK GetById(int id)
         {
             return _repository.GetById(id);
-        }
-
-        public List<Article> GetByType(string type)
-        {
-            return _repository.GetByType(type);
         }
     }
 }

@@ -110,18 +110,39 @@ namespace RojikanPU.Controllers
         // GET: ArticleFile/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var articleFile = _articleFileLogic.GetById(id);
+            ArticleFileViewModel result = new ArticleFileViewModel() { FileName = articleFile.FileName, Id = articleFile.Id, ArticleId = articleFile.ArticleId };
+            return View(result);
         }
 
         // POST: ArticleFile/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(ArticleFileViewModel model)
         {
             try
             {
-                // TODO: Add delete logic here
+                var response = _articleFileLogic.Delete(model.Id); ;
+                if (response.IsError == true)
+                {
+                    foreach (var error in response.ErrorCodes)
+                    {
+                        ModelState.AddModelError(string.Empty, error);
+                    }
 
-                return RedirectToAction("Index");
+                    var articleFile = _articleFileLogic.GetById(model.Id);
+                    ArticleFileViewModel result = new ArticleFileViewModel() { FileName = articleFile.FileName, Id = articleFile.Id };
+                    return View(result);
+                }
+                else
+                {
+                    var filePath = model.ArticleId.ToString() + "_" + model.FileName;
+                    string fullPath = Request.MapPath("~/Content/Upload/" + filePath);
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                }
+                return RedirectToAction("Index", new { id =  model.ArticleId });
             }
             catch
             {

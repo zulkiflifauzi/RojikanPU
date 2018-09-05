@@ -205,11 +205,14 @@
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\ArticleFileController.cs" />
     <Compile Include="Controllers\CityController.cs" />
+    <Compile Include="Controllers\PPKController.cs" />
+    <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Controllers\StateController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Article.cs" />
     <Compile Include="Domain\City.cs" />
     <Compile Include="Domain\ArticleFile.cs" />
+    <Compile Include="Domain\PPK.cs" />
     <Compile Include="Domain\Report.cs" />
     <Compile Include="Domain\State.cs" />
     <Compile Include="Logic\ArticleFileLogic.cs" />
@@ -219,8 +222,10 @@
     <Compile Include="Logic\Interface\IArticleLogic.cs" />
     <Compile Include="Logic\Interface\IBaseLogic.cs" />
     <Compile Include="Logic\Interface\ICityLogic.cs" />
+    <Compile Include="Logic\Interface\IPPKLogic.cs" />
     <Compile Include="Logic\Interface\IStateLogic.cs" />
     <Compile Include="Logic\Interface\IUserLogic.cs" />
+    <Compile Include="Logic\PPKLogic.cs" />
     <Compile Include="Logic\StateLogic.cs" />
     <Compile Include="Logic\UserLogic.cs" />
     <Compile Include="Migrations\201808221055430_InitialMigration.cs" />
@@ -247,12 +252,21 @@
     <Compile Include="Migrations\201809041358472_AlterArticleFile.Designer.cs">
       <DependentUpon>201809041358472_AlterArticleFile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809050549412_AddPPKTable.cs" />
+    <Compile Include="Migrations\201809050549412_AddPPKTable.Designer.cs">
+      <DependentUpon>201809050549412_AddPPKTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809051136482_AddReportTable.cs" />
+    <Compile Include="Migrations\201809051136482_AddReportTable.Designer.cs">
+      <DependentUpon>201809051136482_AddReportTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArticleFileViewModel.cs" />
     <Compile Include="Models\ArticleViewModel.cs" />
     <Compile Include="Models\CityViewModel.cs" />
     <Compile Include="Models\DikbudViewModel.cs" />
     <Compile Include="Models\MapViewModel.cs" />
     <Compile Include="Models\NodeViewModel.cs" />
+    <Compile Include="Models\PPKViewModel.cs" />
     <Compile Include="Models\StateViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Component\ExtensionMethod.cs" />
@@ -275,8 +289,10 @@
     <Compile Include="Repositories\Interfaces\IArticleRepository.cs" />
     <Compile Include="Repositories\Interfaces\IBaseRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICityRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPPKRepository.cs" />
     <Compile Include="Repositories\Interfaces\IStateRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
+    <Compile Include="Repositories\PPKRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Startup.cs" />
@@ -297,6 +313,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\favico.jpg" />
+    <Content Include="Content\Images\icon.png" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -878,6 +895,14 @@
     <Content Include="Views\Article\Details.cshtml" />
     <Content Include="Views\ArticleFile\Index.cshtml" />
     <Content Include="Views\ArticleFile\Create.cshtml" />
+    <Content Include="Views\Article\Delete.cshtml" />
+    <Content Include="Views\Public\Index.cshtml" />
+    <Content Include="Views\Public\Articles.cshtml" />
+    <Content Include="Views\Public\ArticleDetail.cshtml" />
+    <Content Include="Views\ArticleFile\Delete.cshtml" />
+    <Content Include="Views\PPK\Index.cshtml" />
+    <Content Include="Views\PPK\Create.cshtml" />
+    <Content Include="Views\PPK\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -907,6 +932,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809041358472_AlterArticleFile.resx">
       <DependentUpon>201809041358472_AlterArticleFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809050549412_AddPPKTable.resx">
+      <DependentUpon>201809050549412_AddPPKTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809051136482_AddReportTable.resx">
+      <DependentUpon>201809051136482_AddReportTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -9,9 +9,11 @@ using System.Web.Mvc;
 
 namespace RojikanPU.Controllers
 {
+    [Authorize]
     public class ArticleController : Controller
     {
         private ArticleLogic _articleLogic = new ArticleLogic();
+        private ArticleFileLogic _articleFileLogic = new ArticleFileLogic();
         private UserLogic _userLogic = new UserLogic();
         // GET: Article
         public ActionResult Index()
@@ -32,9 +34,10 @@ namespace RojikanPU.Controllers
         {
             var article = _articleLogic.GetById(id);
             ArticleViewModel result = new ArticleViewModel() { Id = article.Id, Content = article.Content, SubTitle = article.SubTitle, Title = article.Title, Type = article.Type, AuthorName = article.Author.FirstName + " " + article.Author.LastName, CreatedDate = article.CreatedDate.ToString("dd-MMM-yyyy") };
+
+            result.Files = new List<ArticleFileViewModel>();
             if (article.ArticleFiles.Count() > 0)
             {
-                result.Files = new List<ArticleFileViewModel>();
                 foreach (var item in article.ArticleFiles)
                 {
                     ArticleFileViewModel articleFile = new ArticleFileViewModel() { ArticleId = item.ArticleId, FileName = item.FileName, Id = item.Id, FileURL = item.ArticleId.ToString() + "_" + item.FileName };
@@ -55,8 +58,10 @@ namespace RojikanPU.Controllers
         private void PrepareSelectList()
         {
             List<SelectListItem> articleType = new List<SelectListItem>();
-            articleType.Add(new SelectListItem { Value = "A", Text = "A" });
-            articleType.Add(new SelectListItem { Value = "B", Text = "B" });
+            articleType.Add(new SelectListItem { Value = "INFO PUBLIK", Text = "INFO PUBLIK" });
+            articleType.Add(new SelectListItem { Value = "SISDA", Text = "SISDA" });
+            articleType.Add(new SelectListItem { Value = "REKOMTEK", Text = "REKOMTEK" });
+            articleType.Add(new SelectListItem { Value = "POSKO", Text = "POSKO" });
 
             ViewData["Types"] = articleType;
         }
@@ -127,17 +132,42 @@ namespace RojikanPU.Controllers
         // GET: Article/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var article = _articleLogic.GetById(id);
+            ArticleViewModel result = new ArticleViewModel() { Id = article.Id, Content = article.Content, SubTitle = article.SubTitle, Title = article.Title, Type = article.Type, AuthorName = article.Author.FirstName + " " + article.Author.LastName, CreatedDate = article.CreatedDate.ToString("dd-MMM-yyyy") };
+            return View(result);
         }
 
         // POST: Article/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(ArticleViewModel model)
         {
             try
             {
-                // TODO: Add delete logic here
+                var articleFiles = _articleFileLogic.GetArticleFiles(model.Id);
+                var response = _articleLogic.Delete(model.Id); ;
+                if (response.IsError == true)
+                {
+                    foreach (var error in response.ErrorCodes)
+                    {
+                        ModelState.AddModelError(string.Empty, error);
+                    }
 
+                    var article = _articleLogic.GetById(model.Id);
+                    ArticleViewModel result = new ArticleViewModel() { Id = article.Id, Content = article.Content, SubTitle = article.SubTitle, Title = article.Title, Type = article.Type };
+                    return View(result);
+                }
+                else
+                {
+                    foreach (var item in articleFiles)
+                    {
+                        var filePath = model.Id.ToString() + "_" + item.FileName;
+                        string fullPath = Request.MapPath("~/Content/Upload/" + filePath);
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+                        }
+                    }                    
+                }
                 return RedirectToAction("Index");
             }
             catch

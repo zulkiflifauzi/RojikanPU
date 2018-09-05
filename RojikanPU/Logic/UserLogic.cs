@@ -43,5 +43,10 @@ namespace RojikanPU.Logic
         {
             return _repository.GetUserByEmail(email);
         }
+
+        public List<ApplicationUser> GetPPKUsers(int? excludedId = null)
+        {
+            return _repository.GetPPKUsers(excludedId);
+        }
     }
 }
