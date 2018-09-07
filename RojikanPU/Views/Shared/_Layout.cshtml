@@ -51,6 +51,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             @if (User.Identity.IsAuthenticated)
                             {
+                                <li>@Html.ActionLink("LAPORAN", "Index", "Report")</li>
                                 <li>@Html.ActionLink("ARTIKEL", "Index", "Article")</li>
                                 <li>@Html.ActionLink("PPK", "Index", "PPK")</li>
                                 <li>@Html.ActionLink("USER", "Index", "User")</li>

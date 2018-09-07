@@ -37,7 +37,10 @@ namespace RojikanPU.Repositories
 
         public Report Edit(Report entity)
         {
-            throw new NotImplementedException();
+            var report = _db.Reports.Find(entity.Id);
+            _db.Entry(report).CurrentValues.SetValues(entity);
+            _db.SaveChanges();
+            return report;
         }
 
         public List<Report> GetAll()
@@ -47,7 +50,7 @@ namespace RojikanPU.Repositories
 
         public Report GetById(int id)
         {
-            throw new NotImplementedException();
+            return _db.Reports.SingleOrDefault(c => c.Id == id);
         }
 
         public int GetLatestReportId()

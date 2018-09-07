@@ -31,6 +31,8 @@ namespace RojikanPU.Domain
         [Required]
         public DateTime CreatedDate { get; set; }
 
+        public string Email { get; set; }
+
         public DateTime? ProcessDate { get; set; }
 
         public DateTime? ClosedDate { get; set; }

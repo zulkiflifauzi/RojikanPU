@@ -26,17 +26,29 @@ namespace RojikanPU.Models
 
         [Required]
         [DisplayName("Isi Laporan")]
-        public string Description { get; set; }  
-        
-        public string Origin { get; set; }      
+        public string Description { get; set; }
 
+        [DisplayName("Media")]
+        public string Origin { get; set; }
+
+        [DisplayName("Tanggal Laporan")]
         public string CreatedDate { get; set; }
 
+        [DisplayName("Status")]
         public string Status { get; set; }
 
+        [DisplayName("Tanggal Assign")]
         public string AssignedDate { get; set; }
 
+        [DisplayName("PPK")]
         public string AssignedToPPK { get; set; }
+
+        [DisplayName("Tanggal Diselesaikan")]
+        public string ClosedDate { get; set; }
+
+        [DisplayName("Email")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
     }
 
     public class HomeViewModel : ReportViewModel

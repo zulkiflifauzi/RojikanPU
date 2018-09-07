@@ -14,6 +14,16 @@ namespace RojikanPU.Logic
     {
         private readonly ReportRepository _repository = new ReportRepository(new ApplicationDbContext());
 
+        public void AssignReport(Report report)
+        {
+            var oldData = _repository.GetById(report.Id);
+            oldData.PPKId = report.PPKId;
+            oldData.StaffComment = report.StaffComment;
+            oldData.ProcessDate = DateTime.Now;
+            oldData.Status = Constant.ReportStatus.ONPROCESS;
+            _repository.Edit(oldData);
+        }
+
         public ResponseMessage Create(Report entity)
         {
             ResponseMessage response = new ResponseMessage();

@@ -80,7 +80,7 @@ namespace RojikanPU.Models
         [Required]
         [Display(Name = "Phone Number")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^(\d{12})$", ErrorMessage = "Phone number is not valid.")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Not a valid phone number.")]
         public string PhoneNumber { get; set; }
 
         [Display(Name = "Current Address")]

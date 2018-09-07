@@ -285,8 +285,13 @@
     <Compile Include="Migrations\201809051759459_AlterReportTable4.Designer.cs">
       <DependentUpon>201809051759459_AlterReportTable4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809071358498_AlterReportTable5.cs" />
+    <Compile Include="Migrations\201809071358498_AlterReportTable5.Designer.cs">
+      <DependentUpon>201809071358498_AlterReportTable5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArticleFileViewModel.cs" />
     <Compile Include="Models\ArticleViewModel.cs" />
+    <Compile Include="Models\AssignViewModel.cs" />
     <Compile Include="Models\CityViewModel.cs" />
     <Compile Include="Models\DikbudViewModel.cs" />
     <Compile Include="Models\MapViewModel.cs" />
@@ -932,12 +937,14 @@
     <Content Include="Views\PPK\Create.cshtml" />
     <Content Include="Views\PPK\Edit.cshtml" />
     <Content Include="Views\Public\SubmitLandingPage.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Report\Create.cshtml" />
+    <Content Include="Views\Report\Assign.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Upload\" />
     <Folder Include="Views\City\" />
-    <Folder Include="Views\Report\" />
     <Folder Include="Views\State\" />
   </ItemGroup>
   <ItemGroup>
@@ -980,6 +987,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809051759459_AlterReportTable4.resx">
       <DependentUpon>201809051759459_AlterReportTable4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809071358498_AlterReportTable5.resx">
+      <DependentUpon>201809071358498_AlterReportTable5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

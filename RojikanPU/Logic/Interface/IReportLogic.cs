@@ -9,5 +9,6 @@ namespace RojikanPU.Logic.Interface
 {
     public interface IReportLogic : IBaseLogic<Report>
     {
+        void AssignReport(Report report);
     }
 }
