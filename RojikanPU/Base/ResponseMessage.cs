@@ -16,5 +16,7 @@ namespace RojikanPU.Base
             get { return _errorCodes; }
             set { _errorCodes = value; }
         }
+
+        public int CreatedId { get; set; }
     }
 }

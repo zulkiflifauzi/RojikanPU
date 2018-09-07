@@ -13,6 +13,8 @@ namespace RojikanPU
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.IgnoreRoute("{*botdetect}", new { botdetect = @"(.*)BotDetectCaptcha\.ashx" });
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

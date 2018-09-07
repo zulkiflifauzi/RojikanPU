@@ -25,6 +25,23 @@ namespace RojikanPU.Domain
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        public string Status { get; set; }
+
+        [Required]
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? ProcessDate { get; set; }
+
+        public DateTime? ClosedDate { get; set; }
+
+        public string StaffComment { get; set; }
+
+        public string PPKComment { get; set; }
+
+        [Required]
+        public string Origin { get; set; }
+
         [ForeignKey("PPK")]
         public int? PPKId { get; set; }
 

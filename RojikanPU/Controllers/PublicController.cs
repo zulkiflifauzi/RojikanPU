@@ -1,8 +1,13 @@
-﻿using RojikanPU.Logic;
+﻿using hbehr.recaptcha;
+using RojikanPU.Base;
+using RojikanPU.Domain;
+using RojikanPU.Logic;
 using RojikanPU.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,9 +16,84 @@ namespace RojikanPU.Controllers
     public class PublicController : Controller
     {
         private ArticleLogic _articleLogic = new ArticleLogic();
+        private ReportLogic _reportLogic = new ReportLogic();
+        
         // GET: Article
         public ActionResult Index()
         {
+            HomeViewModel model = new HomeViewModel();
+            model.ReportList = new List<ReportViewModel>();
+            var reports = _reportLogic.GetAll();
+            foreach (var item in reports)
+            {
+                ReportViewModel report = new ReportViewModel() { Address  = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id };
+                model.ReportList.Add(report);
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Index(HomeViewModel model)
+        {
+            string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            if (validCaptcha)
+            {
+                try
+                {
+                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE };
+
+                    var response = _reportLogic.Create(report);
+                    if (response.IsError == true)
+                    {
+                        foreach (var item in response.ErrorCodes)
+                        {
+                            ModelState.AddModelError(string.Empty, item);
+                        }
+                        return View(model);
+                    }
+                    else
+                    {
+                        var msg = new MailMessage();
+                        msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
+                        msg.Subject = "LAPOR-BRANTAS New Report";
+                        msg.Body = "Dari: " + model.PhoneNumber + ", Isi: " + model.Description;
+                        msg.From = new MailAddress("admin@lapor-brantas.net");
+
+                        using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                        {
+                            client.Send(msg);
+                        }
+                    }
+
+                    return RedirectToAction("SubmitLandingPage", new { id = response.CreatedId, name = model.Name });
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Captcha");
+                HomeViewModel homeView = new HomeViewModel();
+                homeView.ReportList = new List<ReportViewModel>();
+                var reports = _reportLogic.GetAll();
+                foreach (var item in reports)
+                {
+                    ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id };
+                    homeView.ReportList.Add(report);
+                }
+                return View(homeView);
+            }
+
+        }
+
+        public ActionResult SubmitLandingPage(int id, string name)
+        {
+            ViewData["Id"] = id;
+            ViewData["Name"] = name;
             return View();
         }
 

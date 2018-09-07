@@ -64,6 +64,14 @@ namespace RojikanPU.Component
             return MvcHtmlString.Create(result.ToString());
         }
 
-        
+        public static string CreateDescription(this HtmlHelper htmlHelper, string description)
+        {
+            if (description.Length > 20)
+                return description.Substring(0, 20) + "...";
+            else
+                return description;
+        }
+
+
     }
 }
