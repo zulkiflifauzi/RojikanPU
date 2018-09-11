@@ -1,0 +1,47 @@
+﻿@model RojikanPU.Models.ArticleViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@Html.DisplayFor(model => model.Title)</h2>
+    </div>
+    <div class="col-md-12">
+        <span class="pull-right author-detail">Ditulis oleh: @Model.AuthorName pada: @Model.CreatedDate</span>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>@Html.DisplayFor(model => model.SubTitle)</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p>@Html.Raw(Model.Content)</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h4>Files</h4>
+        @if (Model.Files.Count > 0)
+        {
+            <ul>
+                @foreach (var item in Model.Files)
+                {
+                    <li><a href="~/Content/Upload/@item.FileURL">@item.FileName</a></li>
+                }
+            </ul>
+        }
+        else
+        {
+            <span>Tidak ada file</span>
+        }
+    </div>
+</div>
+

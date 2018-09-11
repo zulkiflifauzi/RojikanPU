@@ -1,0 +1,38 @@
+﻿@model IEnumerable<RojikanPU.Models.ArticleViewModel>
+
+@{
+    ViewBag.Title = "Articles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@ViewData["ArticleType"]</h2>
+    </div>
+</div>
+
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-12">
+
+                <hr />
+                <h4>@item.Title</h4>
+                <h5>@item.SubTitle</h5>
+                <p>
+                    <a href="/Public/ArticleDetail/@item.Id">Baca selengkapnya...</a>
+                </p>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <p>Informasi tidak tersedia.</p>
+        </div>
+    </div>
+}

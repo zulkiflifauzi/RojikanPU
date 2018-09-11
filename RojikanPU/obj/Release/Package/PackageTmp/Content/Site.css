@@ -35,17 +35,18 @@ textarea {
 }
 
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
-    color: #8643d6;
+    color: #ffd140;
     background-color: transparent;
 }
 
 .navbar-inverse .navbar-nav > li > a {
     color: #0c5da5;
+    font-weight: bolder;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
-  color: #8643d6;
+  color: #ffd140;
   background-color: transparent;
 }
 
@@ -117,12 +118,12 @@ table {
     border-spacing: 0;
 }
 body {
-    font-family: 'Montserrat', serif;
+    font-family: 'Roboto', serif;
     font-size: 14px;
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'Montserrat', serif;
+    font-family: 'Roboto', serif;
     font-weight: bolder;
 }
 
@@ -135,6 +136,13 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .logo-width {
     width: 350px;
+}
+
+
+.author-detail {
+    color: gray;
+    font-size: 80%;
+    font-style: italic;
 }
 
 @media (max-width: 767px) {

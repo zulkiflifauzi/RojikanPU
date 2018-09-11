@@ -1,0 +1,36 @@
+﻿@model IEnumerable<RojikanPU.Models.ArticleFileViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Daftar File Untuk Artikel "@ViewData["ArticleName"]"</h2>
+
+<p>
+    @Html.ActionLink("Tambah File", "Create", new { id = ViewData["ArticleId"] })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FileName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <a href="~/Content/Upload/@item.FileURL">@item.FileName</a>
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to Article", "Index", "Article", new { id = ViewData["ArticleId"] },null)
+</div>

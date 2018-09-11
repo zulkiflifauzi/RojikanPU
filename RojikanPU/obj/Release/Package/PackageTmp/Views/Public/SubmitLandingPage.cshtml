@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "SubmitLandingPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Terima kasih @ViewData["Name"]!</h2>
+<p>
+    Laporan anda dengan Id @ViewData["Id"] sudah kami terima, anda akan segera kami hubungi kembali.
+</p>
+<div>
+    @Html.ActionLink("Kembali ke halaman utama", "Index", "Public")
+</div>
+
