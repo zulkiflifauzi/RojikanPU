@@ -471,6 +471,7 @@ namespace RojikanPU.Controllers
             {
                 return Redirect(returnUrl);
             }
+
             return RedirectToAction("Index", "Home");
         }
 

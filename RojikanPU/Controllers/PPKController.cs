@@ -123,7 +123,9 @@ namespace RojikanPU.Controllers
                     {
                         ModelState.AddModelError(string.Empty, item);
                     }
-                    return View(model);
+                    var ppk = _ppkLogic.GetById(model.Id);
+                    PPKViewModel result = new PPKViewModel() { Id = ppk.Id, Name = ppk.Name, OldId = ppk.Id };
+                    return View(result);
                 }
                 return RedirectToAction("Index");
             }

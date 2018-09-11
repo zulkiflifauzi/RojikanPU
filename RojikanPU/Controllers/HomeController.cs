@@ -6,12 +6,12 @@ using System.Web.Mvc;
 
 namespace RojikanPU.Controllers
 {
-
-    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
+            if (User.IsInRole("PPK"))
+                return RedirectToAction("Assigned", "Report");
             return View();
         }
 

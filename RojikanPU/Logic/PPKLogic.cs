@@ -13,6 +13,8 @@ namespace RojikanPU.Logic
     public class PPKLogic : IPPKLogic
     {
         private readonly PPKRepository _repository = new PPKRepository(new ApplicationDbContext());
+        private readonly ReportRepository _reportRepository = new ReportRepository(new ApplicationDbContext());
+
 
         public ResponseMessage Create(PPK entity)
         {
@@ -33,6 +35,13 @@ namespace RojikanPU.Logic
         public ResponseMessage Delete(int id)
         {
             ResponseMessage response = new ResponseMessage();
+
+            if (_reportRepository.IsReportsExist(id))
+            {
+                response.IsError = true;
+                response.ErrorCodes.Add("PPK telah didisposisi Laporan, hapus terlebih dahulu laporan tersebut.");
+                return response;
+            }
 
             _repository.Delete(id);
 

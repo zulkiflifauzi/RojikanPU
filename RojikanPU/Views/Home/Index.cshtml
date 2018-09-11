@@ -4,53 +4,25 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h3>Dashboard</h3>
-    </div>
-</div>
-@*<div class="row">
-    <div class="col-md-12">
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="home">...</div>
-            <div role="tabpanel" class="tab-pane" id="profile">...</div>
-            <div role="tabpanel" class="tab-pane" id="messages">...</div>
-            <div role="tabpanel" class="tab-pane" id="settings">...</div>
-        </div>
-    </div>
-</div>*@
-@*<div class="row" style="height:500px">
-    <div class="col-md-12">
-        <hr />
-        <h4>Persebaran Instruktur</h4>
-    </div>
-    <div class="col-md-12" style="height:85%">
-        <div id="map"></div>
+        <h3>Statistik</h3>
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
         <hr />
-        <h4>Grafik Kegiatan per Provinsi</h4>
+        <h4>Grafik Laporan</h4>
     </div>
     <div class="col-md-12">
         <form>
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-2">
-                        Tahun Anggaran
+                        Tahun
                     </div>
                     <div class="col-md-10">
                         <select class="form-control" id="Years"></select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-2">
-                        Provinsi
-                    </div>
-                    <div class="col-md-10">
-                        <select class="form-control" id="States" multiple="multiple"></select>
-                    </div>
-                </div>
-
                 <div class="form-group">
                     <div class="col-md-12">
                         <input onclick="loadGraph()" id="btnLoadGraph" type="button" value="Load" class="btn btn-default" />
@@ -58,10 +30,93 @@
                 </div>
             </div>
         </form>
-       
+
     </div>
     <div class="col-md-12" id="container">
         <canvas id="canvas"></canvas>
     </div>
 
-</div>*@
+</div>
+
+<script type="text/javascript">
+
+    function loadYears(){
+        $.post("/Public/GetYears/", function (data) {
+            var html = "";
+            jQuery.each(data, function (index, itemData) {
+                html += "<option value='" + itemData + "'>" + itemData + "</option>";
+            });
+
+            $("#Years").html(html);
+        });
+    }
+
+    function loadGraph()
+    {
+        if (myLineChart != null)
+        {
+            myLineChart.destroy();
+            Reports = [];
+            Media = [];
+        }
+
+        $.post("/Public/GetReportsGraph/?year=" + $("#Years").val(), function (data) {
+            jQuery.each(data, function (index, itemData) {
+                Reports.push(itemData.Total);
+                Media.push(itemData.Media);
+            });
+
+            var barChartData = {
+                labels: Media,
+                datasets: [{
+                    label: 'Jumlah Laporan',
+                    backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.red,
+                    borderWidth: 1,
+                    data: Reports
+                }]
+            };
+
+            var ctx = document.getElementById('canvas').getContext('2d');
+            myLineChart = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Grafik Laporan per Tahun'
+                    },
+                    scaleShowValues: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                autoSkip: false
+                            }
+                        }]
+                    }
+                }
+
+            });
+        });
+    }
+
+    $(document).ready(function () {
+        loadYears();
+        loadGraph();
+    });
+
+    var myLineChart = null;
+    var Reports = [];
+    var Media = [];
+    var color = Chart.helpers.color;
+
+</script>

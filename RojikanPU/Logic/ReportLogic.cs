@@ -58,5 +58,29 @@ namespace RojikanPU.Logic
         {
             return _repository.GetById(id);
         }
+
+        public List<Report> GetByPPKId(int ppkId)
+        {
+            return _repository.GetByPPKId(ppkId);
+        }
+
+        public List<Report> GetReportGraph(int year)
+        {
+            return _repository.GetReportsGraph(year);
+        }
+
+        public List<string> GetYears()
+        {
+            return _repository.GetYears();
+        }
+
+        public void UpdatePPKComment(Report report)
+        {
+            var oldData = _repository.GetById(report.Id);
+            oldData.PPKComment = report.PPKComment;
+            oldData.ClosedDate = DateTime.Now;
+            oldData.Status = Constant.ReportStatus.CLOSED;
+            _repository.Edit(oldData);
+        }
     }
 }

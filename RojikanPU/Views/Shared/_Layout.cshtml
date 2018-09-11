@@ -34,9 +34,18 @@
                         </button>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a href="/Home/">
-                                <img src="~/Content/Images/logo.png" class="logo-width" />
-                            </a>
+                            if (User.IsInRole("Data Entry") || User.IsInRole("Administrator"))
+                            {
+                                <a href="/Home/">
+                                    <img src="~/Content/Images/logo.png" class="logo-width" />
+                                </a>
+                            }
+                            if (User.IsInRole("PPK"))
+                            {
+                                <a href="/Report/Assigned/">
+                                    <img src="~/Content/Images/logo.png" class="logo-width" />
+                                </a>
+                            }
                         }
                         else
                         {
@@ -58,9 +67,14 @@
                                     <li>@Html.ActionLink("PPK", "Index", "PPK")</li>
                                     <li>@Html.ActionLink("USER", "Index", "User")</li>
                                 }
+                                if (User.IsInRole("PPK"))
+                                {
+                                    <li>@Html.ActionLink("LAPORAN", "Assigned", "Report")</li>
+                                }
                             }
                             else
                             {
+                                <li>@Html.ActionLink("STATISTIK", "Index", "Home")</li>
                                 <li>@Html.ActionLink("INFO PUBLIK", "Articles", "Public", new { id = "INFO PUBLIK" }, null)</li>
                                 <li>@Html.ActionLink("SISDA", "Articles", "Public", new { id = "SISDA" }, null)</li>
                                 <li>@Html.ActionLink("REKOMTEK", "Articles", "Public", new { id = "REKOMTEK" }, null)</li>

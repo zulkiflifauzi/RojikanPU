@@ -55,9 +55,34 @@ namespace RojikanPU.Repositories
             return _db.Reports.SingleOrDefault(c => c.Id == id);
         }
 
+        public List<Report> GetByPPKId(int ppkId)
+        {
+            return _db.Reports.Where(c => c.PPKId == ppkId).ToList();
+        }
+
         public int GetLatestReportId()
         {
             return _db.Reports.Max(c => c.Id);
+        }
+
+        public List<Report> GetReportsGraph(int year)
+        {
+            return _db.Reports.Where(c => c.CreatedDate.Year == year).ToList();
+        }
+
+        public List<string> GetYears()
+        {
+            return _db.Reports.Select(c => c.CreatedDate.Year.ToString()).Distinct().ToList();
+        }
+
+        public bool IsReportsExist(int ppkId)
+        {
+            return _db.Reports.Any(c => c.PPKId == ppkId);
+        }
+
+        public void UpdatePPKComment(Report report)
+        {
+            throw new NotImplementedException();
         }
     }
 }

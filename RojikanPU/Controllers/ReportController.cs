@@ -1,4 +1,5 @@
-﻿using RojikanPU.Base;
+﻿using Microsoft.AspNet.Identity;
+using RojikanPU.Base;
 using RojikanPU.Domain;
 using RojikanPU.Logic;
 using RojikanPU.Models;
@@ -29,8 +30,35 @@ namespace RojikanPU.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "PPK")]
+        public ActionResult Assigned()
+        {
+            List<ReportViewModel> model = new List<ReportViewModel>();
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var reports = _reportLogic.GetByPPKId(userId);
+            foreach (var item in reports)
+            {
+                ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id, AssignedDate = item.ProcessDate.HasValue ? item.ProcessDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, PhoneNumber = item.PhoneNumber, AssignedToPPK = item.PPK != null ? item.PPK.Name : string.Empty, ClosedDate = item.ClosedDate.HasValue ? item.ClosedDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty };
+                model.Add(report);
+            }
+            return View(model);
+        }
+
+        public ActionResult PPKComment(int id)
+        {
+            ViewData["ReportId"] = id;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult PPKComment(PPKCommentViewModel model)
+        {
+            Report report = new Report() { PPKComment = model.Comment, Id = model.ReportId };
+            _reportLogic.UpdatePPKComment(report);
+            return RedirectToAction("Assigned");
+        }
+
         // GET: Report/Details/5
-        [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Details(int id)
         {
             var item = _reportLogic.GetById(id);

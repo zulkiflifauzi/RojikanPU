@@ -129,5 +129,40 @@ namespace RojikanPU.Controllers
             }
             return View(result);
         }
+
+        // GET: Report/Details/5
+        public ActionResult Details(int id)
+        {
+            var item = _reportLogic.GetById(id);
+            ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id, AssignedDate = item.ProcessDate.HasValue ? item.ProcessDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, PhoneNumber = item.PhoneNumber, AssignedToPPK = item.PPK != null ? item.PPK.Name : string.Empty, ClosedDate = item.ClosedDate.HasValue ? item.ClosedDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, StaffComment = item.StaffComment, PPKComment = item.PPKComment };
+            return View(report);
+        }
+
+        [HttpPost]
+        public ActionResult GetYears()
+        {
+            return Json(_reportLogic.GetYears());
+        }
+
+        [HttpPost]
+        public ActionResult GetReportsGraph(int year = 0)
+        {
+            if (year == 0)
+            {
+                return Json(null);
+            }
+            var states = _reportLogic.GetReportGraph(year);
+            List<ReportGraphViewModel> results = new List<ReportGraphViewModel>();
+
+            var medias = states.Select(c => c.Origin).Distinct().ToList();
+            foreach (var item in medias)
+            {
+                ReportGraphViewModel result = new ReportGraphViewModel();
+                result.Media = item;
+                result.Total = states.Where(c => c.Origin.Equals(item)).Count();
+                results.Add(result);
+            }
+            return Json(results);
+        }
     }
 }

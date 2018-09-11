@@ -296,7 +296,9 @@
     <Compile Include="Models\DikbudViewModel.cs" />
     <Compile Include="Models\MapViewModel.cs" />
     <Compile Include="Models\NodeViewModel.cs" />
+    <Compile Include="Models\PPKCommentViewModel.cs" />
     <Compile Include="Models\PPKViewModel.cs" />
+    <Compile Include="Models\ReportGraphViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\StateViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
@@ -943,6 +945,9 @@
     <Content Include="Views\PPK\Delete.cshtml" />
     <Content Include="Views\Report\Details.cshtml" />
     <Content Include="Views\Report\Delete.cshtml" />
+    <Content Include="Views\Report\Assigned.cshtml" />
+    <Content Include="Views\Report\PPKComment.cshtml" />
+    <Content Include="Views\Public\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

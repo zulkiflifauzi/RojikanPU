@@ -10,5 +10,13 @@ namespace RojikanPU.Repositories.Interfaces
     public interface IReportRepository : IBaseRepository<Report>
     {
         int GetLatestReportId();
+
+        bool IsReportsExist(int ppkId);
+
+        List<Report> GetByPPKId(int ppkId);
+
+        List<string> GetYears();
+
+        List<Report> GetReportsGraph(int year);
     }
 }
