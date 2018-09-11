@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace RojikanPU.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator, Data Entry")]
     public class ArticleController : Controller
     {
         private ArticleLogic _articleLogic = new ArticleLogic();

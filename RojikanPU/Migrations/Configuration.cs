@@ -35,6 +35,466 @@ namespace RojikanPU.Migrations
             #endregion
 
             SeedStateCoordinate(context);
+
+            Task.WaitAll(SeedPPK(context));
+        }
+
+        private async Task SeedPPK(ApplicationDbContext context)
+        {
+            var userManager = new ApplicationUserManager(new NetUserStore(context));
+
+            //1
+            if (!context.Users.Any(u => u.UserName == "ppk.ketatalaksanaan@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.ketatalaksanaan@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "Ketatalaksanaan",
+                    Email = "ppk.ketatalaksanaan@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            var ppkUser = await userManager.FindByNameAsync("ppk.ketatalaksanaan@gmail.com");
+            bool isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK Ketatalaksanaan" });
+                context.SaveChanges();
+            }
+
+            //2
+            if (!context.Users.Any(u => u.UserName == "ppk.perencanaan.program@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.perencanaan.program@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "Perencanaan Program",
+                    Email = "ppk.perencanaan.program@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.perencanaan.program@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK Perencanaan Program" });
+                context.SaveChanges();
+            }
+
+            //3
+            if (!context.Users.Any(u => u.UserName == "ppk.op.sda.1@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.op.sda.1@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "OP SDA 1",
+                    Email = "ppk.op.sda.1@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.op.sda.1@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK OP SDA 1" });
+                context.SaveChanges();
+            }
+
+            //4
+            if (!context.Users.Any(u => u.UserName == "ppk.op.sda.2@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.op.sda.2@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "OP SDA 2",
+                    Email = "ppk.op.sda.2@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.op.sda.2@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK OP SDA 2" });
+                context.SaveChanges();
+            }
+
+            //5
+            if (!context.Users.Any(u => u.UserName == "ppk.op.sda.3@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.op.sda.3@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "OP SDA 3",
+                    Email = "ppk.op.sda.3@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.op.sda.3@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK OP SDA 3" });
+                context.SaveChanges();
+            }
+
+            //6
+            if (!context.Users.Any(u => u.UserName == "ppk.op.sda.4@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.op.sda.4@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "OP SDA 4",
+                    Email = "ppk.op.sda.4@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.op.sda.4@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK OP SDA 4" });
+                context.SaveChanges();
+            }
+
+            //7
+            if (!context.Users.Any(u => u.UserName == "ppk.supan.1@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.supan.1@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "SUPAN 1",
+                    Email = "ppk.supan.1@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.supan.1@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK SUPAN 1" });
+                context.SaveChanges();
+            }
+
+            //8
+            if (!context.Users.Any(u => u.UserName == "ppk.supan.2@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.supan.2@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "SUPAN 2",
+                    Email = "ppk.supan.2@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.supan.2@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK SUPAN 2" });
+                context.SaveChanges();
+            }
+
+            //9
+            if (!context.Users.Any(u => u.UserName == "ppk.supan.3@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.supan.3@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "SUPAN 3",
+                    Email = "ppk.supan.3@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.supan.3@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK SUPAN 3" });
+                context.SaveChanges();
+            }
+
+            //10
+            if (!context.Users.Any(u => u.UserName == "ppk.supan.4@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.supan.4@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "SUPAN 4",
+                    Email = "ppk.supan.4@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.supan.4@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK SUPAN 4" });
+                context.SaveChanges();
+            }
+
+            //11
+            if (!context.Users.Any(u => u.UserName == "ppk.irwa.1@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.irwa.1@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "IRWA 1",
+                    Email = "ppk.irwa.1@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.irwa.1@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK IRWA 1" });
+                context.SaveChanges();
+            }
+
+            //12
+            if (!context.Users.Any(u => u.UserName == "ppk.irwa.2@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.irwa.2@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "IRWA 2",
+                    Email = "ppk.irwa.2@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.irwa.2@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK IRWA 2" });
+                context.SaveChanges();
+            }
+
+            //13
+            if (!context.Users.Any(u => u.UserName == "ppk.atab.1@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.atab.1@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "ATAB 1",
+                    Email = "ppk.atab.1@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.atab.1@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK ATAB 1" });
+                context.SaveChanges();
+            }
+
+            //14
+            if (!context.Users.Any(u => u.UserName == "ppk.atab.2@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.atab.2@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "ATAB 2",
+                    Email = "ppk.atab.2@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.atab.2@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK ATAB 2" });
+                context.SaveChanges();
+            }
+
+            //15
+            if (!context.Users.Any(u => u.UserName == "ppk.dse@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.dse@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "DSE",
+                    Email = "ppk.dse@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.dse@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK DSE" });
+                context.SaveChanges();
+            }
+
+            //16
+            if (!context.Users.Any(u => u.UserName == "ppk.bend.1@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.bend.1@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "BEND. 1",
+                    Email = "ppk.bend.1@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.bend.1@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK BEND. 1" });
+                context.SaveChanges();
+            }
+
+            //17
+            if (!context.Users.Any(u => u.UserName == "ppk.bend.2@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.bend.2@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "BEND. 2",
+                    Email = "ppk.bend.2@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.bend.2@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK BEND. 2" });
+                context.SaveChanges();
+            }
+
+            //18
+            if (!context.Users.Any(u => u.UserName == "ppk.perencanaan.bend@gmail.com"))
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = "ppk.perencanaan.bend@gmail.com",
+                    FirstName = "PPK",
+                    LastName = "PERENCANAAN BEND.",
+                    Email = "ppk.perencanaan.bend@gmail.com",
+                    EmailConfirmed = true,
+                    PhoneNumber = "000000000"
+                },
+                    "Password*1"
+                );
+            }
+
+            ppkUser = await userManager.FindByNameAsync("ppk.perencanaan.bend@gmail.com");
+            isAppPPK = await userManager.IsInRoleAsync(ppkUser.Id, "PPK");
+            if (!isAppPPK)
+            {
+                await userManager.AddToRoleAsync(ppkUser.Id, "PPK");
+                context.PPKs.Add(new Domain.PPK() { Id = ppkUser.Id, Name = "PPK PERENCANAAN BEND." });
+                context.SaveChanges();
+            }
+
         }
 
         private void SeedStateCoordinate(ApplicationDbContext context)

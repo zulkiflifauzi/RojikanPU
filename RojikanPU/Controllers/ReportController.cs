@@ -10,11 +10,13 @@ using System.Web.Mvc;
 
 namespace RojikanPU.Controllers
 {
+    [Authorize]
     public class ReportController : Controller
     {
         private ReportLogic _reportLogic = new ReportLogic();
         private PPKLogic _ppkLogic = new PPKLogic();
         // GET: Report
+        [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Index()
         {
             List<ReportViewModel> model = new List<ReportViewModel>();
@@ -28,12 +30,16 @@ namespace RojikanPU.Controllers
         }
 
         // GET: Report/Details/5
+        [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Details(int id)
         {
-            return View();
+            var item = _reportLogic.GetById(id);
+            ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id, AssignedDate = item.ProcessDate.HasValue ? item.ProcessDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, PhoneNumber = item.PhoneNumber, AssignedToPPK = item.PPK != null ? item.PPK.Name : string.Empty, ClosedDate = item.ClosedDate.HasValue ? item.ClosedDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, StaffComment = item.StaffComment, PPKComment = item.PPKComment };
+            return View(report);
         }
 
         // GET: Report/Create
+        [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Create()
         {
             PrepareSelectList();
@@ -51,6 +57,7 @@ namespace RojikanPU.Controllers
 
         // POST: Report/Create
         [HttpPost]
+        [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Create(ReportViewModel model)
         {
             if (model.Origin.Equals(Constant.ReportOrigin.EMAIL) && string.IsNullOrEmpty(model.Email))
@@ -83,6 +90,7 @@ namespace RojikanPU.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Assign(int id)
         {
             AssignViewModel assign = new AssignViewModel();
@@ -92,6 +100,7 @@ namespace RojikanPU.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Assign(AssignViewModel model)
         {
             Report report = new Report();
@@ -136,19 +145,30 @@ namespace RojikanPU.Controllers
         }
 
         // GET: Report/Delete/5
+        [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Delete(int id)
         {
-            return View();
+            var item = _reportLogic.GetById(id);
+            ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id, AssignedDate = item.ProcessDate.HasValue ? item.ProcessDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, PhoneNumber = item.PhoneNumber, AssignedToPPK = item.PPK != null ? item.PPK.Name : string.Empty, ClosedDate = item.ClosedDate.HasValue ? item.ClosedDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, StaffComment = item.StaffComment, PPKComment = item.PPKComment };
+            return View(report);
         }
 
         // POST: Report/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [Authorize(Roles = "Administrator, Data Entry")]
+        public ActionResult Delete(ReportViewModel model)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                var response = _reportLogic.Delete(model.Id);
+                if (response.IsError == true)
+                {
+                    foreach (var item in response.ErrorCodes)
+                    {
+                        ModelState.AddModelError(string.Empty, item);
+                    }
+                    return View(model);
+                }
                 return RedirectToAction("Index");
             }
             catch

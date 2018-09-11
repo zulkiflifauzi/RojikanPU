@@ -49,6 +49,12 @@ namespace RojikanPU.Models
         [DisplayName("Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        [DisplayName("Komentar Staff")]
+        public string StaffComment { get; set; }
+
+        [DisplayName("Komentar PPK")]
+        public string PPKComment { get; set; }
     }
 
     public class HomeViewModel : ReportViewModel

@@ -37,7 +37,11 @@ namespace RojikanPU.Logic
 
         public ResponseMessage Delete(int id)
         {
-            throw new NotImplementedException();
+            ResponseMessage response = new ResponseMessage();
+
+            _repository.Delete(id);
+
+            return response;
         }
 
         public ResponseMessage Edit(Report entity)
@@ -52,7 +56,7 @@ namespace RojikanPU.Logic
 
         public Report GetById(int id)
         {
-            throw new NotImplementedException();
+            return _repository.GetById(id);
         }
     }
 }

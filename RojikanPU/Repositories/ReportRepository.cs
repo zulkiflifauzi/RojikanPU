@@ -32,7 +32,9 @@ namespace RojikanPU.Repositories
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var oldData = _db.Reports.SingleOrDefault(c => c.Id == id);
+            _db.Reports.Remove(oldData);
+            _db.SaveChanges();
         }
 
         public Report Edit(Report entity)

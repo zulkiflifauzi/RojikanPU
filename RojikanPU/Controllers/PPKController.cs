@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace RojikanPU.Controllers
 {
+    [Authorize(Roles = "Administrator, Data Entry")]
     public class PPKController : Controller
     {
         private PPKLogic _ppkLogic = new PPKLogic();
@@ -92,6 +93,36 @@ namespace RojikanPU.Controllers
                         ModelState.AddModelError(string.Empty, item);
                     }
                     PrepareSelectList(model.Id);
+                    return View(model);
+                }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var item = _ppkLogic.GetById(id);
+            PPKViewModel ppk = new PPKViewModel() { Id = item.Id, Name = item.Name, OldId = item.Id };
+            return View(ppk);
+        }
+
+        // POST: Instructor/Edit/5
+        [HttpPost]
+        public ActionResult Delete(PPKViewModel model)
+        {
+            try
+            {
+                var response = _ppkLogic.Delete(model.Id);
+                if (response.IsError == true)
+                {
+                    foreach (var item in response.ErrorCodes)
+                    {
+                        ModelState.AddModelError(string.Empty, item);
+                    }
                     return View(model);
                 }
                 return RedirectToAction("Index");

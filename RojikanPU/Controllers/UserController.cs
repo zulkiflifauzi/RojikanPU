@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace RojikanPU.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator, Data Entry")]
     public class UserController : Controller
     {
         private UserLogic _userLogic = new UserLogic();

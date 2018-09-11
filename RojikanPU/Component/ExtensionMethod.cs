@@ -14,10 +14,10 @@ namespace RojikanPU.Component
         {
             if (user.IsInRole("Administrator"))
                 return "Administrator";
-            else if (user.IsInRole("Anggota"))
-                return "Anggota";
-            else if (user.IsInRole("Bendahara"))
-                return "Bendahara";
+            else if (user.IsInRole("PPK"))
+                return "PPK";
+            else if (user.IsInRole("Data Entry"))
+                return "Data Entry";
 
             return string.Empty;
         }
