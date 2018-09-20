@@ -6,6 +6,7 @@ using RojikanPU.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Web;
@@ -17,6 +18,7 @@ namespace RojikanPU.Controllers
     {
         private ArticleLogic _articleLogic = new ArticleLogic();
         private ReportLogic _reportLogic = new ReportLogic();
+        private ReporterFileLogic _reporterFileLogic = new ReporterFileLogic();
         
         // GET: Article
         public ActionResult Index()
@@ -34,10 +36,10 @@ namespace RojikanPU.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Index(HomeViewModel model)
+        public ActionResult Index(HttpPostedFileBase file, HomeViewModel model)
         {
             string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
-            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);            
             if (validCaptcha)
             {
                 try
@@ -55,6 +57,21 @@ namespace RojikanPU.Controllers
                     }
                     else
                     {
+                        //
+                        if (file.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(file.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadReporter"), filePath);
+                            file.SaveAs(path);
+
+                            ReporterFile reporterFile = new ReporterFile();
+                            reporterFile.FileName = fileName;
+                            reporterFile.ReportId = response.CreatedId;
+
+                            _reporterFileLogic.Create(reporterFile);
+                        }
+
                         var msg = new MailMessage();
                         msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
                         msg.Subject = "LAPOR-BRANTAS New Report";

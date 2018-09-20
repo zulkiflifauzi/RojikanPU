@@ -100,7 +100,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/04/2018 06:57:53</publishTime>
     </File>
     <File Include="bin/RojikanPU.dll">
-      <publishTime>09/08/2018 00:10:44</publishTime>
+      <publishTime>09/12/2018 18:45:34</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>09/04/2018 06:57:53</publishTime>
@@ -1876,7 +1876,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/04/2018 06:57:51</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>09/04/2018 06:57:51</publishTime>
+      <publishTime>09/12/2018 18:43:45</publishTime>
     </File>
     <File Include="Views/Instructor/Create.cshtml">
       <publishTime>08/27/2018 10:47:43</publishTime>
@@ -1938,11 +1938,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/PPK/Create.cshtml">
       <publishTime>09/05/2018 17:54:33</publishTime>
     </File>
+    <File Include="Views/PPK/Delete.cshtml">
+      <publishTime>09/12/2018 18:43:45</publishTime>
+    </File>
     <File Include="Views/PPK/Edit.cshtml">
       <publishTime>09/05/2018 18:08:19</publishTime>
     </File>
     <File Include="Views/PPK/Index.cshtml">
-      <publishTime>09/05/2018 17:25:36</publishTime>
+      <publishTime>09/11/2018 16:16:07</publishTime>
     </File>
     <File Include="Views/Program/Create.cshtml">
       <publishTime>08/28/2018 18:29:17</publishTime>
@@ -1965,8 +1968,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Public/Articles.cshtml">
       <publishTime>09/05/2018 11:26:00</publishTime>
     </File>
+    <File Include="Views/Public/Details.cshtml">
+      <publishTime>09/12/2018 18:43:45</publishTime>
+    </File>
     <File Include="Views/Public/Index.cshtml">
-      <publishTime>09/07/2018 20:00:24</publishTime>
+      <publishTime>09/12/2018 18:43:45</publishTime>
     </File>
     <File Include="Views/Public/SubmitLandingPage.cshtml">
       <publishTime>09/06/2018 01:17:37</publishTime>
@@ -1974,11 +1980,23 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Report/Assign.cshtml">
       <publishTime>09/08/2018 00:09:01</publishTime>
     </File>
+    <File Include="Views/Report/Assigned.cshtml">
+      <publishTime>09/12/2018 18:43:45</publishTime>
+    </File>
     <File Include="Views/Report/Create.cshtml">
       <publishTime>09/08/2018 00:09:01</publishTime>
     </File>
+    <File Include="Views/Report/Delete.cshtml">
+      <publishTime>09/11/2018 17:36:30</publishTime>
+    </File>
+    <File Include="Views/Report/Details.cshtml">
+      <publishTime>09/11/2018 17:30:45</publishTime>
+    </File>
     <File Include="Views/Report/Index.cshtml">
       <publishTime>09/08/2018 00:09:01</publishTime>
+    </File>
+    <File Include="Views/Report/PPKComment.cshtml">
+      <publishTime>09/12/2018 18:43:45</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>09/04/2018 06:57:51</publishTime>
@@ -1987,7 +2005,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/04/2018 06:57:51</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>09/08/2018 00:09:01</publishTime>
+      <publishTime>09/12/2018 18:43:45</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>09/05/2018 09:33:22</publishTime>
@@ -2008,7 +2026,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/04/2018 06:57:51</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/08/2018 00:10:47</publishTime>
+      <publishTime>09/12/2018 18:45:38</publishTime>
     </File>
   </ItemGroup>
 </Project>

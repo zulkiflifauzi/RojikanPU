@@ -7,9 +7,6 @@
 
 <h2>Daftar Laporan</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table" id="reportTable">
     <thead>
         <tr>
@@ -39,9 +36,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AssignedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AssignedToPPK)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ClosedDate)
@@ -81,15 +75,11 @@
                     @Html.DisplayFor(modelItem => item.AssignedDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AssignedToPPK)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.ClosedDate)
                 </td>
                 <td>
-                    @Html.ActionLink("Disposisi", "Assign", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Komentar", "PPKComment", new { id = item.Id }) |
+                    @Html.ActionLink("Detail", "Details", new { id = item.Id })                    
                 </td>
             </tr>
         }
@@ -124,9 +114,6 @@
                 @Html.DisplayNameFor(model => model.AssignedDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AssignedToPPK)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ClosedDate)
             </th>
             <th></th>
@@ -158,8 +145,7 @@
                         select.append('<option value="' + d + '">' + d + '</option>')
                     });
                 });
-            },
-            "order": []
+            }
         });
     });
 </script>
