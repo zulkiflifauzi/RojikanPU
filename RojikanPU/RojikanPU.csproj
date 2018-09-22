@@ -225,6 +225,10 @@
     <Compile Include="Domain\ReporterFile.cs" />
     <Compile Include="Domain\StaffFile.cs" />
     <Compile Include="Domain\State.cs" />
+    <Compile Include="Logic\Interface\IPPKFileLogic.cs" />
+    <Compile Include="Logic\Interface\IStaffFileLogic.cs" />
+    <Compile Include="Logic\PPKFileLogic.cs" />
+    <Compile Include="Logic\StaffFileLogic.cs" />
     <Compile Include="Logic\ReporteFileLogic.cs" />
     <Compile Include="Logic\ArticleFileLogic.cs" />
     <Compile Include="Logic\ArticleLogic.cs" />
@@ -302,6 +306,7 @@
     <Compile Include="Models\ArticleViewModel.cs" />
     <Compile Include="Models\AssignViewModel.cs" />
     <Compile Include="Models\CityViewModel.cs" />
+    <Compile Include="Models\DashboardDTO.cs" />
     <Compile Include="Models\DikbudViewModel.cs" />
     <Compile Include="Models\MapViewModel.cs" />
     <Compile Include="Models\NodeViewModel.cs" />
@@ -324,7 +329,11 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Interfaces\IPPKFileRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IStaffFileRepository.cs" />
     <Compile Include="Repositories\Interfaces\IReporterFileRepository.cs" />
+    <Compile Include="Repositories\PPKFileRepository.cs" />
+    <Compile Include="Repositories\StaffFileRepository.cs" />
     <Compile Include="Repositories\ReporterFileRepository.cs" />
     <Compile Include="Repositories\ArticleFileRepository.cs" />
     <Compile Include="Repositories\ArticleRepository.cs" />
@@ -959,9 +968,14 @@
     <Content Include="Views\Report\Assigned.cshtml" />
     <Content Include="Views\Report\PPKComment.cshtml" />
     <Content Include="Views\Public\Details.cshtml" />
+    <Content Include="Views\Public\Dashboard.cshtml" />
+    <Content Include="Views\Shared\_LayoutDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\UploadPPK\" />
+    <Folder Include="Content\UploadReporter\" />
+    <Folder Include="Content\UploadStaff\" />
     <Folder Include="Content\Upload\" />
     <Folder Include="Views\City\" />
     <Folder Include="Views\State\" />

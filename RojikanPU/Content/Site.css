@@ -145,6 +145,35 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-style: italic;
 }
 
+.card {
+    height: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+
+.bg-orange {
+    background-color: orange;
+}
+
+.bg-red {
+    background-color: red;
+}
+
+.bg-green {
+    background-color: green;
+}
+
+.bg-blue {
+    background-color: cadetblue;
+}
+
+.card-number {
+    font-size: 70px;
+    font-weight: bold;
+}
+
 @media (max-width: 767px) {
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
     color: #0c5da5;

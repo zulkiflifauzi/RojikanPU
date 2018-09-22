@@ -1,0 +1,70 @@
+﻿@model RojikanPU.Models.DashboardDTO
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Dashboard</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="bg-orange card">
+            <div>
+                <h3>
+                    Laporan Belum Disposisi
+                </h3>
+            </div>
+            <div class="card-number">
+                @Model.TotalReportNotYetAssigned
+            </div>
+            
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="bg-red card">
+            <div>
+                <h3>
+                    Disposisi Belum Ditindaklanjuti
+                </h3>
+            </div>
+            <div class="card-number">
+                @Model.TotalReportNotYetCommented
+            </div>
+
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-6">
+        <div class="bg-green card">
+            <div>
+                <h3>
+                    Total Laporan Bulan Ini
+                </h3>
+            </div>
+            <div class="card-number">
+                @Model.TotalReportThisMonth
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="bg-blue card">
+            <div>
+                <h3>
+                    Total Laporan Tahun Ini
+                </h3>
+            </div>
+            <div class="card-number">
+                @Model.TotalReportThisYear
+            </div>
+
+        </div>
+    </div>
+</div>

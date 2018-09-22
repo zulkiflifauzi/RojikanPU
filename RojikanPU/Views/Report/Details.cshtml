@@ -67,6 +67,14 @@
         </dd>
 
         <dt>
+            File Laporan
+        </dt>
+
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.ReportFileURL)) { <a href="@Model.ReportFileURL">Download</a> }
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Status)
         </dt>
 
@@ -87,9 +95,16 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StaffComment)
+            @Html.Raw(Model.StaffComment)
         </dd>
+        <dt>
+            File Disposisi
+        </dt>
 
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.StaffFileURL))
+            { <a href="@Model.StaffFileURL">Download</a> }
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.AssignedToPPK)
         </dt>
@@ -111,11 +126,23 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PPKComment)
+            @Html.Raw(Model.PPKComment)
         </dd>
+        <dt>
+            File PPK
+        </dt>
 
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.PPKFileURL))
+            { <a href="@Model.PPKFileURL">Download</a> }
+        </dd>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @if (User.IsInRole("PPK"))
+    { @Html.ActionLink("Back to List", "Assigned", "Report") }
+    else
+    {
+        @Html.ActionLink("Back to List", "Index")
+    }
 </p>

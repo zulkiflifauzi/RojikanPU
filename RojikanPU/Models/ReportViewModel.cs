@@ -55,6 +55,12 @@ namespace RojikanPU.Models
 
         [DisplayName("Komentar PPK")]
         public string PPKComment { get; set; }
+
+        public string ReportFileURL { get; set; }
+
+        public string StaffFileURL { get; set; }
+
+        public string PPKFileURL { get; set; }
     }
 
     public class HomeViewModel : ReportViewModel

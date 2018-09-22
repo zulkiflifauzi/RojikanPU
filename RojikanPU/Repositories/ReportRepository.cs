@@ -80,6 +80,29 @@ namespace RojikanPU.Repositories
             return _db.Reports.Any(c => c.PPKId == ppkId);
         }
 
+        public int TotalReportNotYetAssigned()
+        {
+            return _db.Reports.Where(c => c.Status == Constant.ReportStatus.NEW).Count();
+        }
+
+        public int TotalReportNotYetCommented()
+        {
+            return _db.Reports.Where(c => c.Status == Constant.ReportStatus.ONPROCESS).Count();
+        }
+
+        public int TotalReportThisMonth()
+        {
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            return _db.Reports.Where(c => c.CreatedDate.Year == year && c.CreatedDate.Month == month).Count();
+        }
+
+        public int TotalReportThisYear()
+        {
+            var year = DateTime.Now.Year;
+            return _db.Reports.Where(c => c.CreatedDate.Year == year).Count();
+        }
+
         public void UpdatePPKComment(Report report)
         {
             throw new NotImplementedException();

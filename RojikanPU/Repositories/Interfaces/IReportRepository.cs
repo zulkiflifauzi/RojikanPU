@@ -18,5 +18,13 @@ namespace RojikanPU.Repositories.Interfaces
         List<string> GetYears();
 
         List<Report> GetReportsGraph(int year);
+
+        int TotalReportThisMonth();
+
+        int TotalReportThisYear();
+
+        int TotalReportNotYetAssigned();
+
+        int TotalReportNotYetCommented();
     }
 }

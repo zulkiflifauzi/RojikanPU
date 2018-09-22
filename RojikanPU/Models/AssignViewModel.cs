@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RojikanPU.Models
 {
@@ -13,6 +14,7 @@ namespace RojikanPU.Models
 
         [Required]
         [DisplayName("Komentar")]
+        [AllowHtml]
         public string StaffComment { get; set; }
 
         [DisplayName("PPK")]

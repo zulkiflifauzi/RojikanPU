@@ -1,0 +1,62 @@
+﻿@using RojikanPU.Component
+ 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - LAPOR BRANTAS</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="~/Content/Images/icon.png"  type="image/png" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
+    <meta http-equiv="refresh" content="300" />
+    <style>
+         /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+         #map {
+             height: 100%;
+         }
+    </style>
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJXxpVIlOlgIwGvHVVdhRSTinAgYxxpVs" type="text/javascript"></script>*@
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="navbar-header">
+                        <a href="/">
+                            <img src="~/Content/Images/logo.png" class="logo-width" />
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/thirdparty")
+    @RenderSection("scripts", required: false)
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - LAPOR BRANTAS</p>
+        </footer>
+    </div>
+
+</body>
+</html>

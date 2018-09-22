@@ -7,6 +7,7 @@ using RojikanPU.Base;
 using RojikanPU.Domain;
 using RojikanPU.Repositories;
 using RojikanPU.Context;
+using RojikanPU.Models;
 
 namespace RojikanPU.Logic
 {
@@ -62,6 +63,16 @@ namespace RojikanPU.Logic
         public List<Report> GetByPPKId(int ppkId)
         {
             return _repository.GetByPPKId(ppkId);
+        }
+
+        public DashboardDTO GetDashboard()
+        {
+            DashboardDTO result = new DashboardDTO();
+            result.TotalReportNotYetAssigned = _repository.TotalReportNotYetAssigned();
+            result.TotalReportNotYetCommented = _repository.TotalReportNotYetCommented();
+            result.TotalReportThisMonth = _repository.TotalReportThisMonth();
+            result.TotalReportThisYear = _repository.TotalReportThisYear();
+            return result;
         }
 
         public List<Report> GetReportGraph(int year)

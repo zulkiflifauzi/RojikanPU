@@ -1,4 +1,5 @@
 ﻿using RojikanPU.Domain;
+using RojikanPU.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,7 @@ namespace RojikanPU.Logic.Interface
         List<string> GetYears();
 
         List<Report> GetReportGraph(int year);
+
+        DashboardDTO GetDashboard();
     }
 }

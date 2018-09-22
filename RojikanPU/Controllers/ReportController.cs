@@ -5,7 +5,10 @@ using RojikanPU.Logic;
 using RojikanPU.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,6 +19,8 @@ namespace RojikanPU.Controllers
     {
         private ReportLogic _reportLogic = new ReportLogic();
         private PPKLogic _ppkLogic = new PPKLogic();
+        private StaffFileLogic _staffFileLogic = new StaffFileLogic();
+        private PPKFileLogic _ppkFileLogic = new PPKFileLogic();
         // GET: Report
         [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Index()
@@ -51,10 +56,49 @@ namespace RojikanPU.Controllers
         }
 
         [HttpPost]
-        public ActionResult PPKComment(PPKCommentViewModel model)
+        public ActionResult PPKComment(HttpPostedFileBase file, PPKCommentViewModel model)
         {
             Report report = new Report() { PPKComment = model.Comment, Id = model.ReportId };
             _reportLogic.UpdatePPKComment(report);
+
+            if (file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var filePath = model.ReportId + "_" + fileName;
+                var path = Path.Combine(Server.MapPath("~/Content/UploadPPK"), filePath);
+                file.SaveAs(path);
+
+                PPKFile ppkFile = new PPKFile();
+                ppkFile.FileName = fileName;
+                ppkFile.ReportId = model.ReportId;
+
+                _ppkFileLogic.Create(ppkFile);
+            }
+
+            try
+            {
+                try
+                {
+                    var msg = new MailMessage();
+                    msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
+                    msg.Subject = "LAPOR-BRANTAS New Comment From PPK";
+                    msg.Body = model.Comment;
+                    msg.From = new MailAddress("admin@lapor-brantas.net");
+
+                    using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                    {
+                        client.Send(msg);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
             return RedirectToAction("Assigned");
         }
 
@@ -62,7 +106,7 @@ namespace RojikanPU.Controllers
         public ActionResult Details(int id)
         {
             var item = _reportLogic.GetById(id);
-            ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id, AssignedDate = item.ProcessDate.HasValue ? item.ProcessDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, PhoneNumber = item.PhoneNumber, AssignedToPPK = item.PPK != null ? item.PPK.Name : string.Empty, ClosedDate = item.ClosedDate.HasValue ? item.ClosedDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, StaffComment = item.StaffComment, PPKComment = item.PPKComment };
+            ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id, AssignedDate = item.ProcessDate.HasValue ? item.ProcessDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, PhoneNumber = item.PhoneNumber, AssignedToPPK = item.PPK != null ? item.PPK.Name : string.Empty, ClosedDate = item.ClosedDate.HasValue ? item.ClosedDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, StaffComment = item.StaffComment, PPKComment = item.PPKComment, ReportFileURL = item.ReporterFiles.Count() > 0 ? "/Content/UploadReporter/" + item.Id + "_" + item.ReporterFiles.FirstOrDefault().FileName : "", StaffFileURL = item.StaffFiles.Count() > 0 ? "/Content/UploadStaff/" + item.Id + "_" + item.StaffFiles.FirstOrDefault().FileName : "", PPKFileURL = item.PPKFiles.Count() > 0 ? "/Content/UploadPPK/" + item.Id + "_" + item.PPKFiles.FirstOrDefault().FileName : "" };
             return View(report);
         }
 
@@ -129,13 +173,52 @@ namespace RojikanPU.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator, Data Entry")]
-        public ActionResult Assign(AssignViewModel model)
+        public ActionResult Assign(HttpPostedFileBase file, AssignViewModel model)
         {
             Report report = new Report();
             report.Id = model.Id;
             report.PPKId = model.PPKId;
             report.StaffComment = model.StaffComment;
             _reportLogic.AssignReport(report);
+            if (file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var filePath = model.Id + "_" + fileName;
+                var path = Path.Combine(Server.MapPath("~/Content/UploadStaff"), filePath);
+                file.SaveAs(path);
+
+                StaffFile staffFile = new StaffFile();
+                staffFile.FileName = fileName;
+                staffFile.ReportId = model.Id;
+
+                _staffFileLogic.Create(staffFile);
+            }
+
+            try {
+                var ppk = _ppkLogic.GetById(model.PPKId);
+
+                if (ppk != null)
+                {
+                    if (ppk.PIC != null)
+                    {
+                        var msg = new MailMessage();
+                        msg.To.Add(new MailAddress(ppk.PIC.Email));
+                        msg.Subject = "LAPOR-BRANTAS New Disposition";
+                        msg.Body = model.StaffComment;
+                        msg.From = new MailAddress("admin@lapor-brantas.net");
+
+                        using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                        {
+                            client.Send(msg);
+                        }
+                    }                   
+                }                
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             return RedirectToAction("Index");
         }
 

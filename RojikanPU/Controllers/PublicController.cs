@@ -19,7 +19,7 @@ namespace RojikanPU.Controllers
         private ArticleLogic _articleLogic = new ArticleLogic();
         private ReportLogic _reportLogic = new ReportLogic();
         private ReporterFileLogic _reporterFileLogic = new ReporterFileLogic();
-        
+
         // GET: Article
         public ActionResult Index()
         {
@@ -28,7 +28,7 @@ namespace RojikanPU.Controllers
             var reports = _reportLogic.GetAll();
             foreach (var item in reports)
             {
-                ReportViewModel report = new ReportViewModel() { Address  = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id };
+                ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id };
                 model.ReportList.Add(report);
             }
             return View(model);
@@ -39,7 +39,7 @@ namespace RojikanPU.Controllers
         public ActionResult Index(HttpPostedFileBase file, HomeViewModel model)
         {
             string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
-            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);            
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
             if (validCaptcha)
             {
                 try
@@ -72,15 +72,22 @@ namespace RojikanPU.Controllers
                             _reporterFileLogic.Create(reporterFile);
                         }
 
-                        var msg = new MailMessage();
-                        msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
-                        msg.Subject = "LAPOR-BRANTAS New Report";
-                        msg.Body = "Dari: " + model.PhoneNumber + ", Isi: " + model.Description;
-                        msg.From = new MailAddress("admin@lapor-brantas.net");
-
-                        using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                        try
                         {
-                            client.Send(msg);
+                            var msg = new MailMessage();
+                            msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
+                            msg.Subject = "LAPOR-BRANTAS New Report";
+                            msg.Body = "Dari: " + model.PhoneNumber + ", Isi: " + model.Description;
+                            msg.From = new MailAddress("admin@lapor-brantas.net");
+
+                            using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                            {
+                                client.Send(msg);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
                         }
                     }
 
@@ -180,6 +187,12 @@ namespace RojikanPU.Controllers
                 results.Add(result);
             }
             return Json(results);
+        }
+
+        public ActionResult Dashboard()
+        {
+            var result = _reportLogic.GetDashboard();
+            return View(result);
         }
     }
 }
