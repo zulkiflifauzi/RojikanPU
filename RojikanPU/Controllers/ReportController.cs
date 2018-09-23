@@ -266,7 +266,7 @@ namespace RojikanPU.Controllers
 
         // POST: Report/Delete/5
         [HttpPost]
-        [Authorize(Roles = "Administrator, Data Entry")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(ReportViewModel model)
         {
             try
