@@ -32,7 +32,7 @@ namespace RojikanPU.Controllers
                 model.ReportList.Add(report);
             }
             return View(model);
-        }
+        }        
 
         [HttpPost]
         [AllowAnonymous]
@@ -70,6 +70,388 @@ namespace RojikanPU.Controllers
                             reporterFile.ReportId = response.CreatedId;
 
                             _reporterFileLogic.Create(reporterFile);
+                        }
+
+                        try
+                        {
+                            var msg = new MailMessage();
+                            msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
+                            msg.Subject = "LAPOR-BRANTAS New Report";
+                            msg.Body = "Dari: " + model.PhoneNumber + ", Isi: " + model.Description;
+                            msg.From = new MailAddress("admin@lapor-brantas.net");
+
+                            using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                            {
+                                client.Send(msg);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+
+                    return RedirectToAction("SubmitLandingPage", new { id = response.CreatedId, name = model.Name });
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Captcha");
+                HomeViewModel homeView = new HomeViewModel();
+                homeView.ReportList = new List<ReportViewModel>();
+                var reports = _reportLogic.GetAll();
+                foreach (var item in reports)
+                {
+                    ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id };
+                    homeView.ReportList.Add(report);
+                }
+                return View(homeView);
+            }
+
+        }
+
+        public ActionResult LSMReport()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult LSMReport(ReportViewModel model)
+        {
+            var idCard = Request.Files["card"];
+            var license = Request.Files["license"];
+            var orgPermit = Request.Files["orgPermit"];
+            var file = Request.Files["file"];
+            if (idCard == null)
+            {
+                ModelState.AddModelError("card", "Mohon upload file KTP.");
+                return View(model);
+            }
+
+            if (file == null)
+            {
+                ModelState.AddModelError("file", "Mohon upload file pendukung.");
+                return View(model);
+            }
+
+            if (license == null)
+            {
+                ModelState.AddModelError("license", "Mohon upload tanda pengenal.");
+                return View(model);
+            }
+
+            if (orgPermit == null)
+            {
+                ModelState.AddModelError("file", "Mohon upload file izin LSM.");
+                return View(model);
+            }
+
+            string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            if (validCaptcha)
+            {
+                try
+                {
+                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE, Type = "LSM", IDCardFileName = idCard.FileName, LicenseFileName = license.FileName, OrganizationpermitFileName = orgPermit.FileName };
+
+                    var response = _reportLogic.Create(report);
+                    if (response.IsError == true)
+                    {
+                        foreach (var item in response.ErrorCodes)
+                        {
+                            ModelState.AddModelError(string.Empty, item);
+                        }
+                        return View(model);
+                    }
+                    else
+                    {
+                        //
+                        if (file.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(file.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadReporter"), filePath);
+                            file.SaveAs(path);
+
+                            ReporterFile reporterFile = new ReporterFile();
+                            reporterFile.FileName = fileName;
+                            reporterFile.ReportId = response.CreatedId;
+
+                            _reporterFileLogic.Create(reporterFile);
+                        }
+
+                        if (idCard.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(idCard.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadKTP"), filePath);
+                            file.SaveAs(path);
+                        }
+
+                        if (license.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(license.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadLicense"), filePath);
+                            file.SaveAs(path);
+                        }
+
+                        if (orgPermit.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(orgPermit.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadOrganizationPermit"), filePath);
+                            file.SaveAs(path);
+                        }
+
+                        try
+                        {
+                            var msg = new MailMessage();
+                            msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
+                            msg.Subject = "LAPOR-BRANTAS New Report";
+                            msg.Body = "Dari: " + model.PhoneNumber + ", Isi: " + model.Description;
+                            msg.From = new MailAddress("admin@lapor-brantas.net");
+
+                            using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                            {
+                                client.Send(msg);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+
+                    return RedirectToAction("SubmitLandingPage", new { id = response.CreatedId, name = model.Name });
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Captcha");
+                HomeViewModel homeView = new HomeViewModel();
+                homeView.ReportList = new List<ReportViewModel>();
+                var reports = _reportLogic.GetAll();
+                foreach (var item in reports)
+                {
+                    ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id };
+                    homeView.ReportList.Add(report);
+                }
+                return View(homeView);
+            }
+
+        }
+
+        public ActionResult MediaReport()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult MediaReport(ReportViewModel model)
+        {
+            var idCard = Request.Files["card"];
+            var license = Request.Files["license"];
+            var orgPermit = Request.Files["orgPermit"];
+            var file = Request.Files["file"];
+            if (idCard == null)
+            {
+                ModelState.AddModelError("card", "Mohon upload file KTP.");
+                return View(model);
+            }
+
+            if (file == null)
+            {
+                ModelState.AddModelError("file", "Mohon upload file pendukung.");
+                return View(model);
+            }
+
+            if (license == null)
+            {
+                ModelState.AddModelError("license", "Mohon upload tanda pengenal.");
+                return View(model);
+            }
+
+            if (orgPermit == null)
+            {
+                ModelState.AddModelError("file", "Mohon upload file izin media.");
+                return View(model);
+            }
+
+            string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            if (validCaptcha)
+            {
+                try
+                {
+                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE, Type = "MEDIA", IDCardFileName = idCard.FileName, LicenseFileName = license.FileName, OrganizationpermitFileName = orgPermit.FileName };
+
+                    var response = _reportLogic.Create(report);
+                    if (response.IsError == true)
+                    {
+                        foreach (var item in response.ErrorCodes)
+                        {
+                            ModelState.AddModelError(string.Empty, item);
+                        }
+                        return View(model);
+                    }
+                    else
+                    {
+                        //
+                        if (file.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(file.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadReporter"), filePath);
+                            file.SaveAs(path);
+
+                            ReporterFile reporterFile = new ReporterFile();
+                            reporterFile.FileName = fileName;
+                            reporterFile.ReportId = response.CreatedId;
+
+                            _reporterFileLogic.Create(reporterFile);
+                        }
+
+                        if (idCard.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(idCard.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadKTP"), filePath);
+                            file.SaveAs(path);
+                        }
+
+                        if (license.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(license.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadLicense"), filePath);
+                            file.SaveAs(path);
+                        }
+
+                        if (orgPermit.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(orgPermit.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadOrganizationPermit"), filePath);
+                            file.SaveAs(path);
+                        }
+
+                        try
+                        {
+                            var msg = new MailMessage();
+                            msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
+                            msg.Subject = "LAPOR-BRANTAS New Report";
+                            msg.Body = "Dari: " + model.PhoneNumber + ", Isi: " + model.Description;
+                            msg.From = new MailAddress("admin@lapor-brantas.net");
+
+                            using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                            {
+                                client.Send(msg);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+
+                    return RedirectToAction("SubmitLandingPage", new { id = response.CreatedId, name = model.Name });
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Captcha");
+                HomeViewModel homeView = new HomeViewModel();
+                homeView.ReportList = new List<ReportViewModel>();
+                var reports = _reportLogic.GetAll();
+                foreach (var item in reports)
+                {
+                    ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id };
+                    homeView.ReportList.Add(report);
+                }
+                return View(homeView);
+            }
+
+        }
+
+
+        public ActionResult GeneralReport()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult GeneralReport(ReportViewModel model)
+        {
+            var idCard = Request.Files["card"];
+            var file = Request.Files["file"];
+            if (idCard == null)
+            {
+                ModelState.AddModelError("card", "Mohon upload file KTP.");
+                return View(model);
+            }
+
+            if (file == null)
+            {
+                ModelState.AddModelError("file", "Mohon upload file pendukung.");
+                return View(model);
+            }
+
+            string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            if (validCaptcha)
+            {
+                try
+                {
+                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE, Type = "MASYARAKAT", IDCardFileName = idCard.FileName };
+
+                    var response = _reportLogic.Create(report);
+                    if (response.IsError == true)
+                    {
+                        foreach (var item in response.ErrorCodes)
+                        {
+                            ModelState.AddModelError(string.Empty, item);
+                        }
+                        return View(model);
+                    }
+                    else
+                    {
+                        //
+                        if (file.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(file.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadReporter"), filePath);
+                            file.SaveAs(path);
+
+                            ReporterFile reporterFile = new ReporterFile();
+                            reporterFile.FileName = fileName;
+                            reporterFile.ReportId = response.CreatedId;
+
+                            _reporterFileLogic.Create(reporterFile);
+                        }
+
+                        if (idCard.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(idCard.FileName);
+                            var filePath = response.CreatedId.ToString() + "_" + fileName;
+                            var path = Path.Combine(Server.MapPath("~/Content/UploadKTP"), filePath);
+                            file.SaveAs(path);
                         }
 
                         try

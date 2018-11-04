@@ -302,6 +302,30 @@
     <Compile Include="Migrations\201809191124277_AddFileTables.Designer.cs">
       <DependentUpon>201809191124277_AddFileTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811040039160_AlterTableReport.cs" />
+    <Compile Include="Migrations\201811040039160_AlterTableReport.Designer.cs">
+      <DependentUpon>201811040039160_AlterTableReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811040113083_AlterTableReport2.cs" />
+    <Compile Include="Migrations\201811040113083_AlterTableReport2.Designer.cs">
+      <DependentUpon>201811040113083_AlterTableReport2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811040119384_AddIDCardFileTable.cs" />
+    <Compile Include="Migrations\201811040119384_AddIDCardFileTable.Designer.cs">
+      <DependentUpon>201811040119384_AddIDCardFileTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811040153261_RemoveFieldsFromReport.cs" />
+    <Compile Include="Migrations\201811040153261_RemoveFieldsFromReport.Designer.cs">
+      <DependentUpon>201811040153261_RemoveFieldsFromReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811040203548_removeSomeFields.cs" />
+    <Compile Include="Migrations\201811040203548_removeSomeFields.Designer.cs">
+      <DependentUpon>201811040203548_removeSomeFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811040209133_AddReportFieldsMedia.cs" />
+    <Compile Include="Migrations\201811040209133_AddReportFieldsMedia.Designer.cs">
+      <DependentUpon>201811040209133_AddReportFieldsMedia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArticleFileViewModel.cs" />
     <Compile Include="Models\ArticleViewModel.cs" />
     <Compile Include="Models\AssignViewModel.cs" />
@@ -970,9 +994,15 @@
     <Content Include="Views\Public\Details.cshtml" />
     <Content Include="Views\Public\Dashboard.cshtml" />
     <Content Include="Views\Shared\_LayoutDashboard.cshtml" />
+    <Content Include="Views\Public\GeneralReport.cshtml" />
+    <Content Include="Views\Public\MediaReport.cshtml" />
+    <Content Include="Views\Public\LSMReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\UploadKTP\" />
+    <Folder Include="Content\UploadLicense\" />
+    <Folder Include="Content\UploadOrganizationPermit\" />
     <Folder Include="Content\UploadPPK\" />
     <Folder Include="Content\UploadReporter\" />
     <Folder Include="Content\UploadStaff\" />
@@ -1026,6 +1056,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809191124277_AddFileTables.resx">
       <DependentUpon>201809191124277_AddFileTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811040039160_AlterTableReport.resx">
+      <DependentUpon>201811040039160_AlterTableReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811040113083_AlterTableReport2.resx">
+      <DependentUpon>201811040113083_AlterTableReport2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811040119384_AddIDCardFileTable.resx">
+      <DependentUpon>201811040119384_AddIDCardFileTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811040153261_RemoveFieldsFromReport.resx">
+      <DependentUpon>201811040153261_RemoveFieldsFromReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811040203548_removeSomeFields.resx">
+      <DependentUpon>201811040203548_removeSomeFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811040209133_AddReportFieldsMedia.resx">
+      <DependentUpon>201811040209133_AddReportFieldsMedia.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

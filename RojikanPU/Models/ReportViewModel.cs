@@ -61,6 +61,14 @@ namespace RojikanPU.Models
         public string StaffFileURL { get; set; }
 
         public string PPKFileURL { get; set; }
+
+        public string IDCardURL { get; set; }
+
+        public string LicenseURL { get; set; }
+
+        public string OrganizationPermitURL { get; set; }
+
+        public string Type { get; set; }
     }
 
     public class HomeViewModel : ReportViewModel

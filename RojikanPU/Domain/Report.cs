@@ -40,7 +40,9 @@ namespace RojikanPU.Domain
 
         public string StaffComment { get; set; }
 
-        public string PPKComment { get; set; }
+        public string PPKComment { get; set; }        
+
+        public string Type { get; set; }
 
         [Required]
         public string Origin { get; set; }
@@ -49,6 +51,12 @@ namespace RojikanPU.Domain
         public int? PPKId { get; set; }
 
         public virtual PPK PPK { get; set; }
+        
+        public string IDCardFileName { get; set; }
+
+        public string LicenseFileName { get; set; }
+
+        public string OrganizationpermitFileName { get; set; }
 
         //FILES
         private ICollection<int> _reporterFileIds;
