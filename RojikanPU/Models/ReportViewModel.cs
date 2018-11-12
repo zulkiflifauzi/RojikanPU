@@ -46,6 +46,7 @@ namespace RojikanPU.Models
         [DisplayName("Tanggal Diselesaikan")]
         public string ClosedDate { get; set; }
 
+        [Required]
         [DisplayName("Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }

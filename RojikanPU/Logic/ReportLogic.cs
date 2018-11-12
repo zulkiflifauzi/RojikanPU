@@ -47,7 +47,11 @@ namespace RojikanPU.Logic
 
         public ResponseMessage Edit(Report entity)
         {
-            throw new NotImplementedException();
+            ResponseMessage response = new ResponseMessage();
+
+            _repository.Edit(entity);
+
+            return response;
         }
 
         public List<Report> GetAll()

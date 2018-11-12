@@ -52,13 +52,26 @@ namespace RojikanPU.Controllers
         public ActionResult PPKComment(int id)
         {
             ViewData["ReportId"] = id;
-            return View();
+            PPKCommentViewModel comment = new PPKCommentViewModel();
+            var report = _reportLogic.GetById(id);
+            comment.PPKComment = report.PPKComment;
+            return View(comment);
         }
 
         [HttpPost]
         public ActionResult PPKComment(HttpPostedFileBase file, PPKCommentViewModel model)
         {
-            Report report = new Report() { PPKComment = model.Comment, Id = model.ReportId };
+            if (file == null)
+            {
+                ViewData["ReportId"] = model.ReportId;
+                ModelState.AddModelError(string.Empty, "Mohon upload file pendukung.");
+                return View(model);
+            }
+
+            var oldReport = _reportLogic.GetById(model.ReportId);
+            var comment = !string.IsNullOrEmpty(oldReport.PPKComment) ? oldReport.PPKComment + "<br />" + model.Comment : model.Comment;
+            
+            Report report = new Report() { PPKComment = comment, Id = model.ReportId };
             _reportLogic.UpdatePPKComment(report);
 
             if (file.ContentLength > 0)
@@ -74,31 +87,25 @@ namespace RojikanPU.Controllers
 
                 _ppkFileLogic.Create(ppkFile);
             }
-
+            
             try
             {
-                try
-                {
-                    var msg = new MailMessage();
-                    msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
-                    msg.Subject = "LAPOR-BRANTAS New Comment From PPK";
-                    msg.Body = model.Comment;
-                    msg.From = new MailAddress("admin@lapor-brantas.net");
+                var msg = new MailMessage();
+                msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["AdminEmail"]));
+                msg.Subject = "LAPOR-BRANTAS New Comment From PPK";
+                msg.Body = model.Comment;
+                msg.From = new MailAddress("admin@lapor-brantas.net");
 
-                    using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
-                    {
-                        client.Send(msg);
-                    }
-                }
-                catch (Exception ex)
+                using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
                 {
-
+                    client.Send(msg);
                 }
             }
             catch (Exception ex)
             {
 
             }
+
             return RedirectToAction("Assigned");
         }
 
@@ -106,7 +113,7 @@ namespace RojikanPU.Controllers
         public ActionResult Details(int id)
         {
             var item = _reportLogic.GetById(id);
-            ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id, AssignedDate = item.ProcessDate.HasValue ? item.ProcessDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, PhoneNumber = item.PhoneNumber, AssignedToPPK = item.PPK != null ? item.PPK.Name : string.Empty, ClosedDate = item.ClosedDate.HasValue ? item.ClosedDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, StaffComment = item.StaffComment, PPKComment = item.PPKComment, ReportFileURL = item.ReporterFiles.Count() > 0 ? "/Content/UploadReporter/" + item.Id + "_" + item.ReporterFiles.FirstOrDefault().FileName : "", StaffFileURL = item.StaffFiles.Count() > 0 ? "/Content/UploadStaff/" + item.Id + "_" + item.StaffFiles.FirstOrDefault().FileName : "", PPKFileURL = item.PPKFiles.Count() > 0 ? "/Content/UploadPPK/" + item.Id + "_" + item.PPKFiles.FirstOrDefault().FileName : "", IDCardURL = "/Content/UploadKTP/" + item.Id + "_" + item.IDCardFileName, LicenseURL = "/Content/UploadLicense/" + item.Id + "_" + item.LicenseFileName, OrganizationPermitURL = "/Content/UploadOrganizationPermit/" + item.Id + "_" + item.OrganizationpermitFileName, Type = item.Type };
+            ReportViewModel report = new ReportViewModel() { Address = item.Address, Description = item.Description, Name = item.Name, Origin = item.Origin, CreatedDate = item.CreatedDate.ToString("dd-MMM-yyyy hh:mm"), Status = item.Status, Id = item.Id, AssignedDate = item.ProcessDate.HasValue ? item.ProcessDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, PhoneNumber = item.PhoneNumber, AssignedToPPK = item.PPK != null ? item.PPK.Name : string.Empty, ClosedDate = item.ClosedDate.HasValue ? item.ClosedDate.Value.ToString("dd-MMM-yyyy hh:mm") : string.Empty, StaffComment = item.StaffComment, PPKComment = item.PPKComment, ReportFileURL = item.ReporterFiles.Count() > 0 ? "/Content/UploadReporter/" + item.Id + "_" + item.ReporterFiles.OrderByDescending(c => c.Id).FirstOrDefault().FileName : "", StaffFileURL = item.StaffFiles.Count() > 0 ? "/Content/UploadStaff/" + item.Id + "_" + item.StaffFiles.OrderByDescending(c => c.Id).FirstOrDefault().FileName : "", PPKFileURL = item.PPKFiles.Count() > 0 ? "/Content/UploadPPK/" + item.Id + "_" + item.PPKFiles.OrderByDescending(c => c.Id).FirstOrDefault().FileName : "", IDCardURL = "/Content/UploadKTP/" + item.Id + "_" + item.IDCardFileName, LicenseURL = "/Content/UploadLicense/" + item.Id + "_" + item.LicenseFileName, OrganizationPermitURL = "/Content/UploadOrganizationPermit/" + item.Id + "_" + item.OrganizationpermitFileName, Type = item.Type };
             return View(report);
         }
 
@@ -175,6 +182,13 @@ namespace RojikanPU.Controllers
         [Authorize(Roles = "Administrator, Data Entry")]
         public ActionResult Assign(HttpPostedFileBase file, AssignViewModel model)
         {
+            if (file == null)
+            {
+                ModelState.AddModelError(string.Empty, "Mohon upload file pendukung.");
+                PrepareAssignSelectList();
+                return View(model);
+            }
+
             Report report = new Report();
             report.Id = model.Id;
             report.PPKId = model.PPKId;
@@ -213,6 +227,95 @@ namespace RojikanPU.Controllers
                         }
                     }                   
                 }                
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Administrator, Data Entry")]
+        public ActionResult Reject(int id)
+        {
+            var report = _reportLogic.GetById(id);
+            RejectViewModel assign = new RejectViewModel();
+            assign.Id = id;
+            assign.PPKComment = report.PPKComment;
+            return View(assign);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator, Data Entry")]
+        public ActionResult Reject(RejectViewModel model)
+        {
+            var report = _reportLogic.GetById(model.Id);
+            report.PPKComment += "<br /><b>Komentar Admin</b>";
+            report.PPKComment += model.StaffComment;
+            report.Status = Constant.ReportStatus.ONPROCESS;
+            report.ClosedDate = null;
+            _reportLogic.Edit(report);
+            
+
+            try
+            {
+                var ppk = _ppkLogic.GetById(report.PPKId.Value);
+
+                if (ppk != null)
+                {
+                    if (ppk.PIC != null)
+                    {
+                        var msg = new MailMessage();
+                        msg.To.Add(new MailAddress(ppk.PIC.Email));
+                        msg.Subject = "LAPOR-BRANTAS Rejected Report";
+                        msg.Body = model.StaffComment;
+                        msg.From = new MailAddress("admin@lapor-brantas.net");
+
+                        using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                        {
+                            client.Send(msg);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        [Authorize(Roles = "Administrator, Data Entry")]
+        public ActionResult Reply(int id)
+        {
+            ReplyViewModel assign = new ReplyViewModel();
+            assign.Id = id;
+            return View(assign);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator, Data Entry")]
+        public ActionResult Reply(ReplyViewModel model)
+        {
+            var report = _reportLogic.GetById(model.Id);
+            report.Reply = model.Comment;
+            report.RepliedDate = DateTime.Now;
+            _reportLogic.Edit(report);
+            try
+            {
+                var msg = new MailMessage();
+                msg.To.Add(new MailAddress(report.Email));
+                msg.Subject = "LAPOR-BRANTAS Jawaban Laporan";
+                msg.Body = model.Comment;
+                msg.From = new MailAddress("admin@lapor-brantas.net");
+
+                using (var client = new SmtpClient() { Host = "relay-hosting.secureserver.net", Port = 25, EnableSsl = false, UseDefaultCredentials = false })
+                {
+                    client.Send(msg);
+                }
             }
             catch (Exception ex)
             {

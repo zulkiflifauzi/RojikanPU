@@ -11,6 +11,13 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
 
@@ -65,6 +72,37 @@
         <dd>
             @Html.DisplayFor(model => model.CreatedDate)
         </dd>
+        <dt>
+            File KTP
+        </dt>
+
+        <dd>
+            <a href="@Model.IDCardURL">Download</a> 
+        </dd>
+        @if (Model.Type != "MASYARAKAT")
+        {
+            <dt>
+                @if (Model.Type == "MEDIA")
+                { <span>File ID Media</span> }
+                @if (Model.Type == "LSM")
+                { <span>File ID LSM</span> }
+            </dt>
+
+            <dd>
+                <a href="@Model.LicenseURL">Download</a>
+            </dd>
+            <dt>
+                @if (Model.Type == "MEDIA")
+                { <span>File Izin Media</span> }
+                @if (Model.Type == "LSM")
+                { <span>File Izin LSM</span> }
+            </dt>
+
+            <dd>
+                <a href="@Model.OrganizationPermitURL">Download</a>
+            </dd>
+        }
+        
 
         <dt>
             File Laporan
@@ -144,5 +182,13 @@
     else
     {
         @Html.ActionLink("Back to List", "Index")
+    }
+
+    @if (User.IsInRole("Data Entry") || User.IsInRole("Administrator"))
+    {
+        if (Model.Status.Equals("CLOSED"))
+        {
+            @Html.ActionLink("| Reject", "Reject", new { id = Model.Id })
+        }
     }
 </p>

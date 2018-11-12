@@ -8,14 +8,14 @@ using System.Web.Mvc;
 
 namespace RojikanPU.Models
 {
-    public class PPKCommentViewModel
+    public class RejectViewModel
     {
-        public int ReportId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [DisplayName("Komentar")]
         [AllowHtml]
-        public string Comment { get; set; }
+        public string StaffComment { get; set; }
 
         public string PPKComment { get; set; }
     }

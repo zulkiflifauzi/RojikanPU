@@ -326,6 +326,18 @@
     <Compile Include="Migrations\201811040209133_AddReportFieldsMedia.Designer.cs">
       <DependentUpon>201811040209133_AddReportFieldsMedia.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811111153161_AddRequiredEmail.cs" />
+    <Compile Include="Migrations\201811111153161_AddRequiredEmail.Designer.cs">
+      <DependentUpon>201811111153161_AddRequiredEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811111837433_AddReplyFieldReport.cs" />
+    <Compile Include="Migrations\201811111837433_AddReplyFieldReport.Designer.cs">
+      <DependentUpon>201811111837433_AddReplyFieldReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811111841453_AddRepliedDateReport.cs" />
+    <Compile Include="Migrations\201811111841453_AddRepliedDateReport.Designer.cs">
+      <DependentUpon>201811111841453_AddRepliedDateReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArticleFileViewModel.cs" />
     <Compile Include="Models\ArticleViewModel.cs" />
     <Compile Include="Models\AssignViewModel.cs" />
@@ -336,6 +348,8 @@
     <Compile Include="Models\NodeViewModel.cs" />
     <Compile Include="Models\PPKCommentViewModel.cs" />
     <Compile Include="Models\PPKViewModel.cs" />
+    <Compile Include="Models\RejectViewModel.cs" />
+    <Compile Include="Models\ReplyViewModel.cs" />
     <Compile Include="Models\ReportGraphViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\StateViewModel.cs" />
@@ -392,6 +406,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\favico.jpg" />
+    <Content Include="Content\Images\flowchart.png" />
     <Content Include="Content\Images\icon.png" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="favicon.ico" />
@@ -997,6 +1012,8 @@
     <Content Include="Views\Public\GeneralReport.cshtml" />
     <Content Include="Views\Public\MediaReport.cshtml" />
     <Content Include="Views\Public\LSMReport.cshtml" />
+    <Content Include="Views\Report\Reject.cshtml" />
+    <Content Include="Views\Report\Reply.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1074,6 +1091,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811040209133_AddReportFieldsMedia.resx">
       <DependentUpon>201811040209133_AddReportFieldsMedia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811111153161_AddRequiredEmail.resx">
+      <DependentUpon>201811111153161_AddRequiredEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811111837433_AddReplyFieldReport.resx">
+      <DependentUpon>201811111837433_AddReplyFieldReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811111841453_AddRepliedDateReport.resx">
+      <DependentUpon>201811111841453_AddRepliedDateReport.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

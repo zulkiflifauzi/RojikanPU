@@ -183,4 +183,12 @@
     {
         @Html.ActionLink("Back to List", "Index")
     }
+
+    @if (User.IsInRole("Data Entry") || User.IsInRole("Administrator"))
+    {
+        if (Model.Status.Equals("CLOSED"))
+        {
+            @Html.ActionLink("| Reject", "Reject", new { id = Model.Id })
+        }
+    }
 </p>

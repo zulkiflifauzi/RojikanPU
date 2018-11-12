@@ -29,14 +29,19 @@ namespace RojikanPU.Domain
         [Required]
         public string Status { get; set; }
 
+        public string Reply { get; set; }
+
         [Required]
         public DateTime CreatedDate { get; set; }
 
+        [Required]
         public string Email { get; set; }
 
         public DateTime? ProcessDate { get; set; }
 
         public DateTime? ClosedDate { get; set; }
+
+        public DateTime? RepliedDate { get; set; }
 
         public string StaffComment { get; set; }
 

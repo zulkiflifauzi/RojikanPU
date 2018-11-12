@@ -195,3 +195,13 @@ C:\Projects\RojikanApp\RojikanPU\obj\Release\RojikanPU.Migrations.AddFileTables.
 C:\Projects\RojikanApp\RojikanPU\obj\Release\RojikanPU.csproj.GenerateResource.Cache
 C:\Projects\RojikanApp\RojikanPU\obj\Release\RojikanPU.dll
 C:\Projects\RojikanApp\RojikanPU\obj\Release\RojikanPU.pdb
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.AddFileTables.resources
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.AlterTableReport.resources
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.AlterTableReport2.resources
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.AddIDCardFileTable.resources
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.RemoveFieldsFromReport.resources
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.removeSomeFields.resources
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.AddReportFieldsMedia.resources
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.AddRequiredEmail.resources
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.AddReplyFieldReport.resources
+C:\Projects\Rojikan\RojikanPU\obj\Release\RojikanPU.Migrations.AddRepliedDateReport.resources

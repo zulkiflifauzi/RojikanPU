@@ -127,27 +127,27 @@ namespace RojikanPU.Controllers
             var license = Request.Files["license"];
             var orgPermit = Request.Files["orgPermit"];
             var file = Request.Files["file"];
-            if (idCard == null)
+            if (idCard.ContentLength == 0)
             {
-                ModelState.AddModelError("card", "Mohon upload file KTP.");
+                ModelState.AddModelError(string.Empty, "Mohon upload file KTP.");
                 return View(model);
             }
 
-            if (file == null)
+            if (file.ContentLength == 0)
             {
-                ModelState.AddModelError("file", "Mohon upload file pendukung.");
+                ModelState.AddModelError(string.Empty, "Mohon upload file pendukung.");
                 return View(model);
             }
 
-            if (license == null)
+            if (license.ContentLength == 0)
             {
-                ModelState.AddModelError("license", "Mohon upload tanda pengenal.");
+                ModelState.AddModelError(string.Empty, "Mohon upload tanda pengenal.");
                 return View(model);
             }
 
-            if (orgPermit == null)
+            if (orgPermit.ContentLength == 0)
             {
-                ModelState.AddModelError("file", "Mohon upload file izin LSM.");
+                ModelState.AddModelError(string.Empty, "Mohon upload file izin LSM.");
                 return View(model);
             }
 
@@ -157,7 +157,7 @@ namespace RojikanPU.Controllers
             {
                 try
                 {
-                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE, Type = "LSM", IDCardFileName = idCard.FileName, LicenseFileName = license.FileName, OrganizationpermitFileName = orgPermit.FileName };
+                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE, Type = "LSM", IDCardFileName = idCard.FileName, LicenseFileName = license.FileName, OrganizationpermitFileName = orgPermit.FileName, Email = model.Email };
 
                     var response = _reportLogic.Create(report);
                     if (response.IsError == true)
@@ -264,27 +264,27 @@ namespace RojikanPU.Controllers
             var license = Request.Files["license"];
             var orgPermit = Request.Files["orgPermit"];
             var file = Request.Files["file"];
-            if (idCard == null)
+            if (idCard.ContentLength == 0)
             {
-                ModelState.AddModelError("card", "Mohon upload file KTP.");
+                ModelState.AddModelError(string.Empty, "Mohon upload file KTP.");
                 return View(model);
             }
 
-            if (file == null)
+            if (file.ContentLength == 0)
             {
-                ModelState.AddModelError("file", "Mohon upload file pendukung.");
+                ModelState.AddModelError(string.Empty, "Mohon upload file pendukung.");
                 return View(model);
             }
 
-            if (license == null)
+            if (license.ContentLength == 0)
             {
-                ModelState.AddModelError("license", "Mohon upload tanda pengenal.");
+                ModelState.AddModelError(string.Empty, "Mohon upload tanda pengenal.");
                 return View(model);
             }
 
-            if (orgPermit == null)
+            if (orgPermit.ContentLength == 0)
             {
-                ModelState.AddModelError("file", "Mohon upload file izin media.");
+                ModelState.AddModelError(string.Empty, "Mohon upload file izin media.");
                 return View(model);
             }
 
@@ -294,7 +294,7 @@ namespace RojikanPU.Controllers
             {
                 try
                 {
-                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE, Type = "MEDIA", IDCardFileName = idCard.FileName, LicenseFileName = license.FileName, OrganizationpermitFileName = orgPermit.FileName };
+                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE, Type = "MEDIA", IDCardFileName = idCard.FileName, LicenseFileName = license.FileName, OrganizationpermitFileName = orgPermit.FileName, Email = model.Email };
 
                     var response = _reportLogic.Create(report);
                     if (response.IsError == true)
@@ -400,15 +400,15 @@ namespace RojikanPU.Controllers
         {
             var idCard = Request.Files["card"];
             var file = Request.Files["file"];
-            if (idCard == null)
+            if (idCard.ContentLength == 0)
             {
-                ModelState.AddModelError("card", "Mohon upload file KTP.");
+                ModelState.AddModelError(string.Empty, "Mohon upload file KTP.");
                 return View(model);
             }
 
-            if (file == null)
+            if (file.ContentLength == 0)
             {
-                ModelState.AddModelError("file", "Mohon upload file pendukung.");
+                ModelState.AddModelError(string.Empty, "Mohon upload file pendukung.");
                 return View(model);
             }
 
@@ -418,7 +418,7 @@ namespace RojikanPU.Controllers
             {
                 try
                 {
-                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE, Type = "MASYARAKAT", IDCardFileName = idCard.FileName };
+                    Report report = new Report() { Name = model.Name, Address = model.Address, PhoneNumber = model.PhoneNumber, Description = model.Description, Origin = Constant.ReportOrigin.WEBSITE, Type = "MASYARAKAT", IDCardFileName = idCard.FileName, Email = model.Email };
 
                     var response = _reportLogic.Create(report);
                     if (response.IsError == true)
